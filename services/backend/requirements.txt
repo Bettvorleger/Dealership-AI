@@ -3,5 +3,7 @@ asyncpg
 bcrypt
 fastapi
 passlib
+python-jose
+python-multipart
 tortoise-orm
 uvicorn
