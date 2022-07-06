@@ -1,0 +1,7 @@
+aerich
+asyncpg
+bcrypt
+fastapi
+passlib
+tortoise-orm
+uvicorn
