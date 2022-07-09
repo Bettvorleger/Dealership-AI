@@ -1,45 +1,36 @@
 <template>
-  <q-layout view="hHh lpR fFf">
-
-    <q-header elevated class="bg-primary text-white" height-hint="98">
-      <q-toolbar>
-        <q-toolbar-title>
-          <q-avatar>
-            <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg">
-          </q-avatar>
-          Title
-        </q-toolbar-title>
-      </q-toolbar>
-
-      <q-tabs align="left">
-        <q-route-tab to="/page1" label="Page One" />
-        <q-route-tab to="/page2" label="Page Two" />
-        <q-route-tab to="/page3" label="Page Three" />
-      </q-tabs>
-    </q-header>
-
-    <q-page-container>
-      <router-view />
-    </q-page-container>
-
-  </q-layout>
+  <div class="dai">
+    <q-layout class="dai__layout" view="hHh lpR fFf">
+      <NavBar class="dai__header shadow-3 rounded-borders" />
+      <q-space />
+      <q-page-container class="dai__page-container">
+        <router-view class="dai__page shadow-3 rounded-borders" />
+      </q-page-container>
+    </q-layout>
+  </div>
 </template>
 
 <script>
-import { ref } from 'vue'
-import HelloWorld from './components/HelloWorld.vue'
+import { useQuasar } from 'quasar'
+import { ref, computed } from "vue";
+import NavBar from "@/components/NavBar.vue";
 
 export default {
-  name: 'LayoutDefault',
-
   components: {
-    HelloWorld
+    NavBar,
   },
 
-  setup () {
+  setup() {
+    const $q = useQuasar()
+
+    const style = computed(() => ({
+      height: $q.screen.height + 'px'
+    }))
+
     return {
-      leftDrawerOpen: ref(false)
-    }
-  }
-}
+      leftDrawerOpen: ref(false),
+      style
+    };
+  },
+};
 </script>

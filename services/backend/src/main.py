@@ -1,4 +1,3 @@
-from src.routes import users, notes
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from tortoise import Tortoise
@@ -6,9 +5,11 @@ from tortoise import Tortoise
 from src.database.register import register_tortoise
 from src.database.config import TORTOISE_ORM
 
-
 # enable schemas to read relationship between models
 Tortoise.init_models(["src.database.models"], "models")
+
+# must be AFTER tortoise model init, otherwise foregin keys aren't loadded
+from src.routes import users, notes
 
 app = FastAPI()
 
