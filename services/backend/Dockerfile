@@ -11,9 +11,10 @@ RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
 # for migrations
-COPY migrations .
-COPY pyproject.toml .
+COPY migrations ./src
+COPY pyproject.toml ./src
+COPY main.py .
 
 COPY src ./src
 
-CMD ["uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "80"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "80"]

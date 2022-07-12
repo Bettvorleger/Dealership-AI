@@ -10,7 +10,7 @@ def register_tortoise(
 ) -> None:
     @app.on_event("startup")
     async def init_orm():
-        #await Tortoise.init(config=config)
+        await Tortoise.init(config=config)
         if generate_schemas:
             await Tortoise.generate_schemas()
 
