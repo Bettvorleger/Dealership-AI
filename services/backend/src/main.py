@@ -11,7 +11,8 @@ Tortoise.init_models(["src.database.models"], "models")
 # must be AFTER tortoise model init, otherwise foregin keys aren't loadded
 from src.routes import users, notes
 
-app = FastAPI()
+subpath = '/fastapi'
+app = FastAPI(docs_url=f'{subpath}/docs', openapi_url=f'{subpath}/openapi.json')
 
 app.add_middleware(
     CORSMiddleware,
@@ -26,6 +27,6 @@ app.include_router(notes.router)
 register_tortoise(app, config=TORTOISE_ORM, generate_schemas=False)
 
 
-@app.get("/")
+@app.get(f'{subpath}/')
 def home():
     return "Hello, World!"
