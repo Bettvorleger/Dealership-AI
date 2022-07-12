@@ -15,3 +15,5 @@ COPY migrations .
 COPY pyproject.toml .
 
 COPY src/ .
+
+CMD ["uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "80"]
