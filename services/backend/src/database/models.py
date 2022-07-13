@@ -20,3 +20,19 @@ class Notes(models.Model):
 
     def __str__(self):
         return f"{self.title}, {self.author_id} on {self.created_at}"
+
+
+class Cars(models.Model):
+    id = fields.IntField(pk=True)
+    make = fields.CharField(max_length=225)
+    model = fields.CharField(max_length=225)
+    mileage = fields.IntField()
+    fuel = fields.CharField(max_length=50)
+    gear = fields.CharField(max_length=50)
+    offer_type = fields.CharField(max_length=50)
+    hp = fields.IntField()
+    year = fields.IntField()
+    price = fields.IntField()
+    is_sold = fields.BooleanField()
+    created_at = fields.DatetimeField(auto_now_add=True)
+    modified_at = fields.DatetimeField(auto_now=True)
