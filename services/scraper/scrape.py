@@ -1,4 +1,3 @@
-from typing import Dict
 from bs4 import BeautifulSoup, SoupStrainer
 import requests
 from time import sleep
