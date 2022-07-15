@@ -3,6 +3,9 @@ stages:
   - push
   - deploy
 
+variables:
+  DOCKER_HOST: tcp://docker:2375
+
 build_image:
   stage: build
   image: docker:latest
@@ -11,7 +14,6 @@ build_image:
   before_script:
     - cd services/backend
   script:
-    - sleep 16
     - docker login -u $DOCKER_USER -p $DOCKER_PW docker.io
     - docker build -f Dockerfile -t index.docker.io/group5se4ai22/repo_backend_group5se4ai22 .
     - docker push index.docker.io/group5se4ai22/repo_backend_group5se4ai22
@@ -26,7 +28,6 @@ push_to_dockerhub:
   before_script:
     - cd services/backend
   script:
-    - sleep 16
     - docker login -u $DOCKER_USER -p $DOCKER_PW docker.io
     - docker pull index.docker.io/group5se4ai22/repo_backend_group5se4ai22
 
