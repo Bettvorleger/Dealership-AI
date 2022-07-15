@@ -2,9 +2,6 @@ stages:
   - build
   - deploy
 
-variables:
-  DOCKER_HOST: tcp://localhost:2375
-
 build-backend:
   stage: build
   image: docker:latest
