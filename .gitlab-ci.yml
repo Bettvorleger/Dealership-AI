@@ -1,0 +1,25 @@
+stages:
+  - build
+  - deploy
+
+build-backend:
+  stage: build
+  image: docker:latest
+  services:
+    - docker:dind
+  script:
+    - cd services/backend
+    - docker login - u "$DOCKER_USER" -p "$DOCKER_PW"
+    - docker build -f Dockerfile -t group5se4ai22/repo_backend_group5se4ai22 .
+    - docker push group5se4ai22/repo_backend_group5se4ai22
+
+deploy-backend:      
+  stage: deploy
+  script:
+    - cd services/backend
+    - kubectl config set clusters.k8s.certificate-authority-data $K8S_CERTIFICATE 
+    - kubectl config set clusters.k8s.server $K8S_SERVER
+    - kubectl config set users.ci-user.token $K8S_TOKEN
+    - kubectl config set-context ci-k8s --cluster=k8s --user=ci-user --namespace=group5
+    - kubectl config use-context ci-k8s
+    - kubectl apply -f backend.yaml
