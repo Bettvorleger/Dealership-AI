@@ -2,17 +2,31 @@ stages:
   - build
   - deploy
 
-build-backend:
-  stage: build
+docker-build-master:
   image: docker:latest
+  stage: build
   services:
     - docker:dind
   before_script:
-    - docker login --username $DOCKER_USER --password $DOCKER_PW docker.io
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
   script:
-    - cd services/backend
-    - docker build -f Dockerfile -t index.docker.io/group5se4ai22/repo_backend_group5se4ai22 .
-    - docker push index.docker.io/group5se4ai22/repo_backend_group5se4ai22
+    - docker build --pull -t "$CI_REGISTRY_IMAGE" .
+    - docker push "$CI_REGISTRY_IMAGE"
+  only:
+    - master
+
+docker-build:
+  image: docker:latest
+  stage: build
+  services:
+    - docker:dind
+  before_script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+  script:
+    - docker build --pull -t "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG" .
+    - docker push "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG"
+  except:
+    - master
 
 deploy-backend:      
   stage: deploy
