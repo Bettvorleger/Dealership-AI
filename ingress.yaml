@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ds-fastapi-ingress
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: t5.se4ai.sws.informatik.uni-leipzig.de
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: ds-vue-service
+                port:
+                  number: 80        
+          - path: /fastapi
+            pathType: Prefix
+            backend:
+              service:
+                name: ds-fastapi-service
+                port:
+                  number: 80

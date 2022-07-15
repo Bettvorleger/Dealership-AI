@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ds-fastapi-deployment
+  labels:
+    app: ds-fastapi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ds-fastapi
+  template:
+    metadata:
+      labels:
+        app: ds-fastapi
+    spec:
+      containers:
+        - name: ds-fastapi
+          image: group5se4ai22/repo_test_group5se4ai22:latest
+          ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ds-fastapi-service
+spec:
+  selector:
+    app: ds-fastapi
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
