@@ -9,7 +9,7 @@ build-backend:
     - docker:dind
   script:
     - cd services/backend
-    - docker login --username "$DOCKER_USER" --password "$DOCKER_PW"
+    - docker login --username $DOCKER_USER --password $DOCKER_PW
     - docker build -f Dockerfile -t group5se4ai22/repo_backend_group5se4ai22 .
     - docker push group5se4ai22/repo_backend_group5se4ai22
 
