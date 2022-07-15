@@ -1,34 +1,36 @@
 stages:
   - build
+  - push
   - deploy
 
-docker-build-master:
-  image: docker:latest
+build_image:
   stage: build
+  image: docker:latest
   services:
     - docker:dind
   before_script:
-    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
-  script:
     - cd services/backend
-    - docker build --pull -t "$CI_REGISTRY_IMAGE" .
-    - docker push "$CI_REGISTRY_IMAGE"
-  only:
-    - master
+  script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+    - docker build -f Dockerfile -t $CI_REGISTRY_IMAGE .
+    - docker push $CI_REGISTRY_IMAGE
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
 
-docker-build:
+push_to_dockerhub:
+  stage: push
   image: docker:latest
-  stage: build
   services:
     - docker:dind
-  before_script:
-    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
   script:
-    - cd services/backend
-    - docker build --pull -t "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG" .
-    - docker push "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG"
-  except:
-    - master
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+    - docker pull $CI_REGISTRY_IMAGE
+
+    - docker login --username=$DOCKER_USER  --password=$DOCKER_PW docker.io
+    - docker tag $CI_REGISTRY_IMAGE group5se4ai22/repo_backend_group5se4ai22:latest
+    - docker push group5se4ai22/repo_backend_group5se4ai22:latest
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
 
 deploy-backend:      
   stage: deploy
