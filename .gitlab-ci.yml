@@ -22,12 +22,14 @@ push_to_dockerhub:
   image: docker:latest
   services:
     - docker:dind
+  before_script:
+    - cd services/backend
   script:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
     - docker pull $CI_REGISTRY_IMAGE
 
-    - docker login --username=$DOCKER_USER  --password=$DOCKER_PW docker.io
-    - docker tag $CI_REGISTRY_IMAGE group5se4ai22/repo_backend_group5se4ai22:latest
+    - docker login --username=$DOCKER_USER --password=$DOCKER_PW docker.io
+    - docker tag $CI_REGISTRY_IMAGE index.docker.io/group5se4ai22/repo_backend_group5se4ai22:latest
     - docker push group5se4ai22/repo_backend_group5se4ai22:latest
   rules:
     - if: $CI_COMMIT_BRANCH == "main"
