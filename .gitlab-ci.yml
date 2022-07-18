@@ -9,11 +9,9 @@ build-backend:
     DOCKER_DRIVER: overlay2
     DOCKER_TLS_CERTDIR: ""
   services:
-    - name: "docker:20.10.17-dind"
-      command: ['--tls=false', '--host=tcp://0.0.0.0:2375']
+    - docker:20.10.17-dind
   before_script:
     - docker login -u $DOCKER_USER -p $DOCKER_PW docker.io
-    - docker info
   script:
     - cd services/backend
     - docker build -t index.docker.io/group5se4ai22/repo_backend_group5se4ai22 .
