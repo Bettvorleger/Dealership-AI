@@ -10,7 +10,7 @@ build-backend:
     DOCKER_HOST: tcp://localhost:2375
     DOCKER_TLS_CERTDIR: ""
   services:
-    - docker: 18.09.7-dind
+    - docker:18.09.7-dind
   before_script:
     - docker login -u $DOCKER_USER -p $DOCKER_PW docker.io
   script:
