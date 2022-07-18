@@ -2,7 +2,7 @@ stages:
   - build
   - deploy
 
-build_image:
+build-backend:
   stage: build
   image: docker:20.10.17
   variables:
@@ -19,6 +19,9 @@ build_image:
 
 deploy-backend:      
   stage: deploy
+  image:
+    name: bitnami/kubectl:latest
+    entrypoint: ['']
   script:
     - cd services/backend
     - kubectl config set clusters.k8s.certificate-authority-data $K8S_CERTIFICATE 
