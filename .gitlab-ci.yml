@@ -4,12 +4,12 @@ stages:
 
 build-backend:
   stage: build
-  image: docker:20.10.17
+  image: docker:18.09
   variables:
     DOCKER_DRIVER: overlay2
-    DOCKER_TLS_CERTDIR: ""
+    DOCKER_HOST: tcp://docker:2375/
   services:
-    - docker:20.10.17-dind
+    - docker:18.09-dind
   before_script:
     - docker login -u $DOCKER_USER -p $DOCKER_PW docker.io
   script:
