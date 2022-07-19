@@ -6,7 +6,8 @@ build-backend:
   stage: build
   before_script:
     - id -a
-    - dpkg -i docker.deb
+    - service --status-all
+    - sudo cp $(which dpkg -i docker.deb) /usr/bin
   script:
     - docker run hello-world
     - echo "$DOCKER_PW" | docker login --username $DOCKER_USER --password-stdin docker.io
