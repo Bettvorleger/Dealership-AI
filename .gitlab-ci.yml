@@ -8,6 +8,7 @@ build-backend:
     - apt-get update
     - apt-get -y install sudo
     - sudo dpkg -i docker.deb
+    - sudo ls -la /var/run/docker.sock
     - sudo service --status-all 
     - sudo service docker start
   script:
