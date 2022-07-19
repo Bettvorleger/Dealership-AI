@@ -5,9 +5,8 @@ stages:
 build-backend:
   stage: build
   before_script:
-    - sudo dpkg -i docker.deb
+    - dpkg -i docker.deb
   script:
-    - sudo dpkg -i docker.deb
     - echo "$DOCKER_PW" | docker login --username $DOCKER_USER --password-stdin docker.io
     - cd services/backend
     - docker build -t index.docker.io/group5se4ai22/repo_backend_group5se4ai22 .
