@@ -1,10 +1,10 @@
 stages:
-  - deploy
   - build
+  - deploy
 
 build-backend:
   stage: build
-
+  image: docker:latest
   before_script:
     - echo "$DOCKER_PW" | docker login --username $DOCKER_USER --password-stdin docker.io
   script:
