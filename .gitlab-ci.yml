@@ -4,11 +4,9 @@ stages:
 
 build-backend:
   stage: build
-  image: docker:stable
-  services:
-    - docker:dind
   before_script:
-    - docker info
+    - apt list --installed
+    - uname -v
     - echo "$DOCKER_PW" | docker login --username $DOCKER_USER --password-stdin docker.io
   script:
     - cd services/backend
