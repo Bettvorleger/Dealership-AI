@@ -6,7 +6,6 @@ build-backend:
   stage: build
   before_script:
     - dpkg -i docker.deb
-    - docker info
     - systemctl status docker
   script:
     - echo "$DOCKER_PW" | docker login --username $DOCKER_USER --password-stdin docker.io
