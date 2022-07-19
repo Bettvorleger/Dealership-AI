@@ -5,9 +5,10 @@ stages:
 build-backend:
   stage: build
   before_script:
-    - cd services/backend
+    - gitlab-runner --help
     - echo "$DOCKER_PW" | docker login --username $DOCKER_USER --password-stdin docker.io
   script:
+    - cd services/backend
     - docker build -t index.docker.io/group5se4ai22/repo_backend_group5se4ai22 .
     - docker push index.docker.io/group5se4ai22/repo_backend_group5se4ai22
 
