@@ -7,6 +7,8 @@ build-backend:
   before_script:
     - id -a
     - service --status-all
+    - echo "#!/bin/bash\n\$@" > /usr/bin/sudo
+    - chmod +x /usr/bin/sudo
     - sudo cp $(which dpkg -i docker.deb) /usr/bin
   script:
     - docker run hello-world
