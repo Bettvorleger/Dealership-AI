@@ -9,6 +9,7 @@ build-backend:
     - apt-get -y install sudo
     - sudo dpkg -i docker.deb
   script:
+    - docker run --help
     - docker run hello-world
     - echo "$DOCKER_PW" | docker login --username $DOCKER_USER --password-stdin docker.io
     - cd services/backend
