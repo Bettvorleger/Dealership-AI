@@ -5,7 +5,7 @@ stages:
 build-backend:
   stage: build
   before_script:
-    - ls
+    - cat /etc/os-release
     - echo "$DOCKER_PW" | docker login --username $DOCKER_USER --password-stdin docker.io
   script:
     - cd services/backend
