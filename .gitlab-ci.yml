@@ -5,6 +5,7 @@ stages:
 build-backend:
   stage: build
   before_script:
+    - id -a
     - dpkg -i docker.deb
   script:
     - docker run hello-world
