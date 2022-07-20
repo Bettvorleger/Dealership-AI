@@ -13,7 +13,7 @@ build-backend:
     - cat /kaniko/.docker/config.json
     - >-
       /kaniko/executor
-      --context "${CI_PROJECT_DIR}"
+      --context "${CI_PROJECT_DIR}/services/backend"
       --dockerfile "${CI_PROJECT_DIR}/services/backend/Dockerfile"
       --destination "${CI_REGISTRY_IMAGE}:${CI_COMMIT_TAG}"
   rules:
