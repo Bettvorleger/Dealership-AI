@@ -24,8 +24,6 @@ app.add_middleware(
 app.include_router(users.router, prefix=subpath)
 app.include_router(notes.router, prefix=subpath)
 
-print(TORTOISE_ORM)
-
 register_tortoise(app, config=TORTOISE_ORM, generate_schemas=False)
 
 
