@@ -31,4 +31,4 @@ register_tortoise(app, config=TORTOISE_ORM, generate_schemas=False)
 
 @app.get(f'{subpath}/')
 def home():
-    return "Hello, World!"
+    return "Hello, World 2!"

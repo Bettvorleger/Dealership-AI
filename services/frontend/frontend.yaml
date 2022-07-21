@@ -17,6 +17,7 @@ spec:
       containers:
         - name: ds-vue
           image: group5se4ai22/repo_frontend_group5se4ai22:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 80
 ---
