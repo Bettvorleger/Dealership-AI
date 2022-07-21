@@ -6,8 +6,10 @@ import store from './store'
 import { Quasar } from 'quasar'
 import quasarUserOptions from './quasar-user-options'
 
+const loc = document.location;
+
 axios.defaults.withCredentials = true;
-axios.defaults.baseURL = 'http://localhost:5001/';  // the FastAPI backend
+axios.defaults.baseURL = loc.protocol + '//' + loc.hostname + ':80/fastapi';  // the FastAPI backend
 
 axios.interceptors.response.use(undefined, function (error) {
     if (error) {

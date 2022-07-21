@@ -16,13 +16,13 @@ app = FastAPI(docs_url=f'{subpath}/docs', openapi_url=f'{subpath}/openapi.json')
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:8080"],
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
-app.include_router(users.router)
-app.include_router(notes.router)
+app.include_router(users.router, prefix=subpath)
+app.include_router(notes.router, prefix=subpath)
 
 print(TORTOISE_ORM)
 
