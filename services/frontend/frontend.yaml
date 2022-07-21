@@ -19,7 +19,7 @@ spec:
           image: group5se4ai22/repo_frontend_group5se4ai22:latest
           imagePullPolicy: Always
           ports:
-            - containerPort: 80
+            - containerPort: 8080
 ---
 apiVersion: v1
 kind: Service
@@ -30,5 +30,5 @@ spec:
     app: ds-vue
   ports:
     - protocol: TCP
-      port: 80
+      port: 8080
       targetPort: 80

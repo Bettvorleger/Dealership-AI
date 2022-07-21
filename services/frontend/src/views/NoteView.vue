@@ -33,7 +33,7 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 export default {
-  name: "Note",
+  name: "NoteView",
   props: ["id"],
   async created() {
     try {

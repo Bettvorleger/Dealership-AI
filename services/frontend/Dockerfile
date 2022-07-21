@@ -10,4 +10,4 @@ COPY package.json .
 COPY package-lock.json .
 RUN npm install
 
-CMD ["npm", "run", "serve", "--", "--port", "80"]
+CMD ["npm", "run", "serve"]
