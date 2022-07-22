@@ -9,7 +9,7 @@ import quasarUserOptions from './quasar-user-options'
 const loc = document.location;
 
 axios.defaults.withCredentials = true;
-axios.defaults.baseURL = loc.protocol + '//' + loc.hostname + ':80/fastapi';  // the FastAPI backend
+axios.defaults.baseURL = loc.protocol + '//' + loc.hostname + '/fastapi';  // the FastAPI backend
 
 axios.interceptors.response.use(undefined, function (error) {
     if (error) {
