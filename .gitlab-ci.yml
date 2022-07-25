@@ -63,7 +63,6 @@ deploy-backend:
     - kubectl config set-context ci-k8s --cluster=k8s --user=ci-user --namespace=group5
     - kubectl config use-context ci-k8s
     - kubectl apply -f backend.yaml
-    - kubectl rollout restart deployment ds-fastapi-deployment
 
 deploy-frontend:
   stage: deploy
@@ -78,7 +77,6 @@ deploy-frontend:
     - kubectl config set-context ci-k8s --cluster=k8s --user=ci-user --namespace=group5
     - kubectl config use-context ci-k8s
     - kubectl apply -f frontend.yaml
-    - kubectl rollout restart deployment ds-vue-deployment
 
 deploy-scraper:
   stage: deploy
