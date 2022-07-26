@@ -50,6 +50,32 @@ build-scraper:
   rules:
     - if: $CI_COMMIT_TAG
 
+deploy-ingress:
+  stage: deploy
+  image:
+    name: bitnami/kubectl:latest
+    entrypoint: ['']
+  script:
+    - kubectl config set clusters.k8s.certificate-authority-data $K8S_CERTIFICATE 
+    - kubectl config set clusters.k8s.server $K8S_SERVER
+    - kubectl config set users.ci-user.token $K8S_TOKEN
+    - kubectl config set-context ci-k8s --cluster=k8s --user=ci-user --namespace=group5
+    - kubectl config use-context ci-k8s
+    - kubectl apply -f ingress.yaml
+
+deploy-secrets:
+  stage: deploy
+  image:
+    name: bitnami/kubectl:latest
+    entrypoint: ['']
+  script:
+    - kubectl config set clusters.k8s.certificate-authority-data $K8S_CERTIFICATE 
+    - kubectl config set clusters.k8s.server $K8S_SERVER
+    - kubectl config set users.ci-user.token $K8S_TOKEN
+    - kubectl config set-context ci-k8s --cluster=k8s --user=ci-user --namespace=group5
+    - kubectl config use-context ci-k8s
+    - kubectl apply -f secrets.yaml
+
 deploy-backend:
   stage: deploy
   image:
@@ -91,16 +117,3 @@ deploy-scraper:
     - kubectl config set-context ci-k8s --cluster=k8s --user=ci-user --namespace=group5
     - kubectl config use-context ci-k8s
     - kubectl apply -f scraper.yaml
-
-deploy-ingress:
-  stage: deploy
-  image:
-    name: bitnami/kubectl:latest
-    entrypoint: ['']
-  script:
-    - kubectl config set clusters.k8s.certificate-authority-data $K8S_CERTIFICATE 
-    - kubectl config set clusters.k8s.server $K8S_SERVER
-    - kubectl config set users.ci-user.token $K8S_TOKEN
-    - kubectl config set-context ci-k8s --cluster=k8s --user=ci-user --namespace=group5
-    - kubectl config use-context ci-k8s
-    - kubectl apply -f ingress.yaml
