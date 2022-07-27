@@ -24,6 +24,8 @@ class Notes(models.Model):
 
 class Cars(models.Model):
     id = fields.IntField(pk=True)
+    #title = fields.CharField(max_length=225)
+    #features
     make = fields.CharField(max_length=225)
     model = fields.CharField(max_length=225)
     mileage = fields.IntField()
@@ -33,6 +35,14 @@ class Cars(models.Model):
     hp = fields.IntField()
     year = fields.IntField()
     price = fields.IntField()
+    #for sales prediction
     is_sold = fields.BooleanField()
+    #
+    author = fields.ForeignKeyField("models.Users", related_name="car")
     created_at = fields.DatetimeField(auto_now_add=True)
     modified_at = fields.DatetimeField(auto_now=True)
+    
+    '''
+    def __str__(self):
+        return f"{self.title}, {self.author_id} on {self.created_at}"
+    '''

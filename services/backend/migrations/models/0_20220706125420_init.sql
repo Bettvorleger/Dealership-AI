@@ -15,6 +15,22 @@ CREATE TABLE IF NOT EXISTS "notes" (
     "modified_at" TIMESTAMPTZ NOT NULL  DEFAULT CURRENT_TIMESTAMP,
     "author_id" INT NOT NULL REFERENCES "users" ("id") ON DELETE CASCADE
 );
+CREATE TABLE IF NOT EXISTS "cars" (
+    "id" SERIAL NOT NULL PRIMARY KEY,
+    "make" VARCHAR(225) NOT NULL,
+    "model" VARCHAR(225) NOT NULL,
+    "mileage" INT NOT NULL,
+    "fuel" VARCHAR(225) NOT NULL,
+    "gear" VARCHAR(225) NOT NULL,
+    "offer_type" VARCHAR(225) NOT NULL,
+    "hp" INT NOT NULL,
+    "year" INT NOT NULL,
+    "price" INT,
+    "is_sold" BOOLEAN,
+    "created_at" TIMESTAMPTZ NOT NULL  DEFAULT CURRENT_TIMESTAMP,
+    "modified_at" TIMESTAMPTZ NOT NULL  DEFAULT CURRENT_TIMESTAMP,
+    "author_id" INT NOT NULL REFERENCES "users" ("id") ON DELETE CASCADE
+);
 CREATE TABLE IF NOT EXISTS "aerich" (
     "id" SERIAL NOT NULL PRIMARY KEY,
     "version" VARCHAR(255) NOT NULL,
