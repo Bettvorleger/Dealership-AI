@@ -6,7 +6,7 @@ from tortoise.exceptions import DoesNotExist
 
 import src.crud.cars as crud
 from src.auth.jwthandler import get_current_user
-from src.schemas.cars import CarOutSchema, CarInSchema
+from src.schemas.cars import CarOutSchema, CarInSchema, UpdateCar
 from src.schemas.token import Status
 from src.schemas.users import UserOutSchema
 
@@ -49,6 +49,19 @@ async def create_car(
 ###
 ### todo: @router.patch ###
 ###
+
+@router.patch(
+    "/car/{car_id}",
+    dependencies=[Depends(get_current_user)],
+    response_model=CarOutSchema,
+    responses={404: {"model": HTTPNotFoundError}},
+)
+async def update_car(
+    car_id: int,
+    car: UpdateCar,
+    current_user: UserOutSchema = Depends(get_current_user),
+) -> CarOutSchema:
+    return await crud.update_car(car_id, car, current_user)
 
 @router.delete(
     "/car/{car_id}",

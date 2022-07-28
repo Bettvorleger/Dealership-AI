@@ -26,7 +26,7 @@ async def update_car(car_id, car, current_user) -> CarOutSchema:
         db_car = await CarOutSchema.from_queryset_single(Cars.get(id=car_id))
     except DoesNotExist:
         raise HTTPException(
-            status_code=404, detail=f"Note {car_id} not found")
+            status_code=404, detail=f"Car {car_id} not found")
 
     if db_car.author.id == current_user.id:
         await Cars.filter(id=car_id).update(**car.dict(exclude_unset=True))
