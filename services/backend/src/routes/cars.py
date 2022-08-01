@@ -39,12 +39,11 @@ async def get_car(car_id: int) -> CarOutSchema:
 
 
 @router.post(
-    "/cars", response_model=CarOutSchema, dependencies=[Depends(get_current_user)]
+    "/cars", response_model=CarOutSchema
 )
 async def create_car(
-    car: CarInSchema, current_user: UserOutSchema = Depends(get_current_user)
-) -> CarOutSchema:
-    return await crud.create_car(car, current_user)
+    car: CarInSchema) -> CarOutSchema:
+    return await crud.create_car(car)
 
 ###
 ### todo: @router.patch ###

@@ -7,10 +7,10 @@ from src.database.models import Cars
 
 
 CarInSchema = pydantic_model_creator(
-    Cars, name="CarsIn", exclude=["author_id", "is_sold", "price"], exclude_readonly=True)
+    Cars, name="CarsIn", exclude=["is_sold", "price"], exclude_readonly=True)
 
 CarOutSchema = pydantic_model_creator(
-    Cars, name="Car", exclude =["modified_at", "author.password", "author.created_at", "author.modified_at"])
+    Cars, name="Car", exclude =["modified_at"])
 
 #just for patch
 

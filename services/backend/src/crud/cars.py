@@ -12,9 +12,8 @@ async def get_car(car_id) -> CarOutSchema:
     return await CarOutSchema.from_queryset_single(Cars.get(id=car_id))
 
 
-async def create_car(car, current_user) -> CarOutSchema:
+async def create_car(car) -> CarOutSchema:
     car_dict = car.dict(exclude_unset=True)
-    car_dict["author_id"] = current_user.id
     car_dict["is_sold"] = False
     car_dict["price"] = 0
     car_obj = await Cars.create(**car_dict)

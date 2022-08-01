@@ -4,6 +4,7 @@ node_modules
 __pycache__
 .kube
 kubeconfig
+migrations
 
 
 # local env files
