@@ -4,7 +4,7 @@ from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 
-path_to_data = "autoscout24-germany-dataset.csv"
+path_to_data = "../data/autoscout24-germany-dataset.csv"
 cars = pd.read_csv(path_to_data)
 
 # unsinnige Einträge für "Marke" löschen
