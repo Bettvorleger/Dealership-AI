@@ -71,7 +71,7 @@
               prediction.
             </p>
             <div class="q-gutter-md q-mb-md row">
-              <SelectText v-model="car.brand" label="Brand" :rules="required" />
+              <SelectText v-model="car.make" label="Make" :rules="required" />
 
               <SelectText v-model="car.model" label="Model" :rules="required" />
             </div>
@@ -80,32 +80,39 @@
                 v-model="car.mileage"
                 label="Mileage"
                 :rules="required"
+                type="number"
               />
 
-              <InputText v-model="car.hp" label="HP" :rules="required" />
+              <InputText
+                v-model="car.hp"
+                label="HP"
+                :rules="required"
+                type="number"
+              />
 
               <InputText
                 v-model="car.year"
                 label="Year"
                 hint="First registration"
                 :rules="required.concat(yearVal)"
+                type="number"
               />
             </div>
             <div class="q-gutter-md row">
               <SelectText
-                v-model="car.gearType"
+                v-model="car.gear"
                 label="Gear Type"
                 :rules="required"
               />
 
               <SelectText
-                v-model="car.fuelType"
+                v-model="car.fuel"
                 label="Fuel Type"
                 :rules="required"
               />
 
               <SelectText
-                v-model="car.offerType"
+                v-model="car.offer_type"
                 label="Offer Type"
                 :rules="required"
               />
@@ -199,17 +206,17 @@
         </q-step>
 
         <q-step :name="4" title="Listing" prefix="4">
-          <q-form class="q-ml-xl">
+          <q-form class="q-ml-xl" @submit="onSubmitListing">
             <h5 class="q-mb-sm">Select an option for you car sale listing</h5>
             <p class="text-body2">
               Review the two options carefully, since the presented estimted
               price is automatically generated.
             </p>
-            <q-form class="q-gutter-y-md q-mt-lg" @submit="onSubmitListing">
+            <div class="q-gutter-y-md q-mt-lg">
               <q-btn-toggle
                 @onChange="show"
                 class="toggle-listing"
-                v-model="listing_ai"
+                v-model="car.is_custom"
                 spread
                 no-caps
                 rounded
@@ -218,8 +225,8 @@
                 color="white"
                 text-color="black"
                 :options="[
-                  { value: true, slot: 'ai' },
-                  { value: false, slot: 'custom' },
+                  { value: false, slot: 'ai' },
+                  { value: true, slot: 'custom' },
                 ]"
               >
                 <template v-slot:ai>
@@ -259,7 +266,7 @@
                 <q-input
                   class="col-2 offset-2"
                   label="Custom Price"
-                  v-if="!listing_ai"
+                  v-if="car.is_custom"
                   outlined
                   v-model="customPrice"
                   type="number"
@@ -269,11 +276,16 @@
                 />
                 <div class="col-2"></div>
               </div>
-            </q-form>
+            </div>
 
             <q-stepper-navigation>
               <q-btn flat @click="step = 3" color="accent" label="Back" />
-              <q-btn color="accent" label="Create" class="q-ml-sm" />
+              <q-btn
+                color="accent"
+                label="Create"
+                type="submit"
+                class="q-ml-sm"
+              />
             </q-stepper-navigation>
           </q-form>
         </q-step>
@@ -285,25 +297,29 @@
 import { ref } from "vue";
 import InputText from "../components/InputText.vue";
 import SelectText from "../components/SelectText.vue";
+import { useStore } from "vuex";
 
 export default {
   name: "HomeView",
   components: { InputText, SelectText },
   setup() {
+    const store = useStore();
+
     let car = ref({
-      brand: "",
+      make: "",
       model: "",
       mileage: null,
       hp: null,
       year: null,
-      fuelType: "",
-      gearType: "",
-      offerType: "",
+      fuel: "",
+      gear: "",
+      offer_type: "",
+      is_custom: false,
     });
     const price = ref(0);
     const customPrice = ref(null);
-    const listing_ai = ref(true);
-    const step = ref(3);
+    const step = ref(4);
+
     const image = ref(null);
     const imageUrl = ref("");
     const handleUpload = () => {
@@ -312,21 +328,27 @@ export default {
       }
     };
     const onSubmitCarDetails = () => {
-      console.log("Succces");
-      console.log(car.value);
+      //INFERENCE HERE//
+      price.value = Math.ceil(Math.random() * 1000);
+
       step.value = 3;
+    };
+    const onSubmitListing = () => {
+      console.log("Success");
+      console.log(car.value);
+      store.dispatch("createCar", car.value);
     };
     return {
       car,
       price,
       customPrice,
-      listing_ai,
       prompt: ref(false),
       step,
       image,
       imageUrl,
       handleUpload,
       onSubmitCarDetails,
+      onSubmitListing,
       required: [(val) => !!val || "Required"],
       yearVal: [
         (val) =>

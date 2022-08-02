@@ -6,6 +6,7 @@
       v-model="input"
       :label="label"
       :hint="hint"
+      :type="type"
       lazy-rules
       :rules="rules"
     />
@@ -22,6 +23,7 @@ export default {
     label: String,
     hint: String,
     rules: Array,
+    type: String,
   },
   setup(props, { emit }) {
     const input = computed({
