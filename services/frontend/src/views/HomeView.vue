@@ -138,7 +138,7 @@
               reasons for a potentially low or high price here.
             </p>
             <div class="row text-h6">
-              Your cars predicted value: {{ price }}€
+              Your cars predicted value: {{ car.price }}€
               <q-btn
                 class="q-ml-md"
                 flat
@@ -239,7 +239,7 @@
                   <ul dense class="row q-mt-md q-mb-xs text-weight-regular">
                     <li class="col-5 text-left">
                       list your car for the <b>predicted price</b> of
-                      {{ price }}€
+                      {{ car.price }}€
                     </li>
                     <li class="col-5 offset-1 stext-left">
                       get <b>100€ cash back</b> for successful sale
@@ -268,7 +268,7 @@
                   label="Custom Price"
                   v-if="car.is_custom"
                   outlined
-                  v-model="car.price"
+                  v-model="customPrice"
                   type="number"
                   prefix="€"
                   lazy-rules
@@ -341,11 +341,13 @@ export default {
       fuel: "",
       gear: "",
       offer_type: "",
-      price: null,
       is_custom: false,
+      price: null,
     });
+    const customPrice = ref(0)
     const step = ref(2);
     const successDialog = ref(false);
+    const code = ref(null)
 
     const image = ref(null);
     const imageUrl = ref("");
@@ -357,18 +359,22 @@ export default {
     const onSubmitCarDetails = () => {
       //INFERENCE HERE//
       car.value.price = Math.ceil(Math.random() * 1000);
+      customPrice.value = car.value.price
       step.value = 3;
     };
     const onSubmitListing = () => {
-      console.log("Success");
-      console.log(car.value);
-      store.dispatch("createCar", car.value);
-      successDialog.value = true;
+      car.value.price = customPrice.value
+      store.dispatch("createCar", car.value).then((resp) => {
+        code.value = btoa(resp.id).replace('=','');
+        successDialog.value = true;
+      });
     };
     return {
       car,
+      customPrice,
       prompt: ref(false),
       successDialog,
+      code,
       step,
       image,
       imageUrl,

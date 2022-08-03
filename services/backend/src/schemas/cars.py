@@ -7,7 +7,7 @@ from src.database.models import Cars
 
 
 CarInSchema = pydantic_model_creator(
-    Cars, name="CarsIn", exclude=["is_sold", "price"], exclude_readonly=True)
+    Cars, name="CarsIn", exclude=["is_sold"], exclude_readonly=True)
 
 CarOutSchema = pydantic_model_creator(
     Cars, name="Car", exclude =["modified_at"])
@@ -23,3 +23,4 @@ class UpdateCar(BaseModel):
     offer_type: Optional[str]
     hp: Optional[int]
     year: Optional[int]
+    price: Optional[int]

@@ -63,6 +63,7 @@
 <script>
 import { computed } from "vue";
 import { useStore } from "vuex";
+import { useRouter } from "vue-router";
 
 import InputText from "../components/InputText.vue";
 import SelectText from "../components/SelectText.vue";
@@ -73,6 +74,7 @@ export default {
   components: { InputText, SelectText },
   setup(props) {
     const store = useStore();
+    const router = useRouter();
 
     store.dispatch("getCar", props.id);
     const car = computed(() => store.getters.stateCar);
@@ -85,6 +87,7 @@ export default {
           details: car.value,
         };
         store.dispatch("updateCar", data);
+        router.push({ name: "dashboard" });
       } catch (error) {
         console.log(error);
       }

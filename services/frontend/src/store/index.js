@@ -1,7 +1,6 @@
 import createPersistedState from "vuex-persistedstate";
 import { createStore } from 'vuex'
 
-import notes from './modules/notes';
 import users from './modules/users';
 import cars from './modules/cars';
 
@@ -15,7 +14,6 @@ export default createStore({
   actions: {
   },
   modules: {
-    notes,
     users,
     cars,
   },

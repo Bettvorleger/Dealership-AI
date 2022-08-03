@@ -13,11 +13,20 @@ const getters = {
 const actions = {
     // eslint-disable-next-line no-empty-pattern
     async createCar({ }, car) {
-        await axios.post('cars', car);
+        try {
+            let res = await axios.post('cars', car);
+            if (res.status == 200) {
+                console.log(car)
+                console.log(res.status)
+            }
+            console.log(res.data)
+            return res.data
+        }
+        catch (err) {
+            console.error(err);
+        }
     },
     async getCars({ commit }) {
-
-        console.log("TEST")
         let { data } = await axios.get('cars');
         commit('setCars', data);
     },
@@ -29,9 +38,9 @@ const actions = {
     async updateCar({ }, car) {
         await axios.patch(`car/${car.id}`, car.details);
     },
-    // eslint-disable-next-line no-empty-pattern
-    async deleteCar({ }, id) {
+    async deleteCar({ dispatch }, id) {
         await axios.delete(`car/${id}`);
+        await dispatch('getCars');
     },
 };
 

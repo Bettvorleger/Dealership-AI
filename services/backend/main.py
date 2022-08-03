@@ -9,7 +9,7 @@ from src.database.config import TORTOISE_ORM
 Tortoise.init_models(["src.database.models"], "models")
 
 # must be AFTER tortoise model init, otherwise foregin keys aren't loadded
-from src.routes import users, notes, cars
+from src.routes import users, cars
 
 subpath = '/fastapi'
 app = FastAPI(docs_url=f'{subpath}/docs', openapi_url=f'{subpath}/openapi.json')
@@ -22,7 +22,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 app.include_router(users.router, prefix=subpath)
-app.include_router(notes.router, prefix=subpath)
 app.include_router(cars.router, prefix=subpath)
 
 register_tortoise(app, config=TORTOISE_ORM, generate_schemas=False)

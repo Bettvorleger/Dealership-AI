@@ -8,7 +8,6 @@ import src.crud.cars as crud
 from src.auth.jwthandler import get_current_user
 from src.schemas.cars import CarOutSchema, CarInSchema, UpdateCar
 from src.schemas.token import Status
-from src.schemas.users import UserOutSchema
 
 
 router = APIRouter()
@@ -42,12 +41,9 @@ async def get_car(car_id: int) -> CarOutSchema:
     "/cars", response_model=CarOutSchema
 )
 async def create_car(
-    car: CarInSchema) -> CarOutSchema:
+        car: CarInSchema) -> CarOutSchema:
     return await crud.create_car(car)
 
-###
-### todo: @router.patch ###
-###
 
 @router.patch(
     "/car/{car_id}",
@@ -58,9 +54,9 @@ async def create_car(
 async def update_car(
     car_id: int,
     car: UpdateCar,
-    current_user: UserOutSchema = Depends(get_current_user),
 ) -> CarOutSchema:
-    return await crud.update_car(car_id, car, current_user)
+    return await crud.update_car(car_id, car)
+
 
 @router.delete(
     "/car/{car_id}",
@@ -69,6 +65,6 @@ async def update_car(
     dependencies=[Depends(get_current_user)],
 )
 async def delete_car(
-    car_id: int, current_user: UserOutSchema = Depends(get_current_user)
+    car_id: int
 ):
-    return await crud.delete_car(car_id, current_user)
+    return await crud.delete_car(car_id)
