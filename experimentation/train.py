@@ -3,6 +3,15 @@ import numpy as np
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
+import os
+import mlflow.sklearn
+
+os.environ['MLFLOW_TRACKING_USERNAME'] = 'group5'
+os.environ['MLFLOW_TRACKING_PASSWORD'] = 'BVT4mSsG4'
+os.environ['MLFLOW_TRACKING_URI'] = 'https://mlflow.sws.informatik.uni-leipzig.de'
+
+# our experiment name in mlflow
+mlflow.set_experiment('group5-linear-regression')
 
 path_to_data = "../data/autoscout24-germany-dataset.csv"
 cars = pd.read_csv(path_to_data)
@@ -55,7 +64,12 @@ def eval_metrics(actual, pred):
     return rmse, mae, r2
 
 
-regr = LinearRegression()
-regr.fit(X_train, Y_train)
-predicted = regr.predict(X_test)
-(rmse, mae, r2) = eval_metrics(Y_test, predicted)
+with mlflow.start_run():
+    regr = LinearRegression()
+    regr.fit(X_train, Y_train)
+    predicted = regr.predict(X_test)
+    (rmse, mae, r2) = eval_metrics(Y_test, predicted)
+    mlflow.log_metric("rmse", rmse)
+    mlflow.log_metric("r2", r2)
+    mlflow.log_metric("mae", mae)
+    mlflow.sklearn.log_model(regr, 'linearmodel')
