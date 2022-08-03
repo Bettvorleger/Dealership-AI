@@ -4,6 +4,13 @@ module.exports = defineConfig({
     'quasar'
   ],
 
+  pages: {
+    index: {
+      entry: 'src/main.js',
+      title: 'Dealership AI',
+    },
+  },
+
   pluginOptions: {
     quasar: {
       importStrategy: 'kebab',

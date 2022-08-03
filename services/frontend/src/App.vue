@@ -11,25 +11,26 @@
 </template>
 
 <script>
-import { useQuasar } from 'quasar'
+import { useQuasar } from "quasar";
 import { ref, computed } from "vue";
 import NavBar from "@/components/NavBar.vue";
 
 export default {
+  name: "App",
   components: {
     NavBar,
   },
 
   setup() {
-    const $q = useQuasar()
+    const $q = useQuasar();
 
     const style = computed(() => ({
-      height: $q.screen.height + 'px'
-    }))
+      height: $q.screen.height + "px",
+    }));
 
     return {
       leftDrawerOpen: ref(false),
-      style
+      style,
     };
   },
 };

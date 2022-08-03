@@ -7,8 +7,7 @@ import RegisterView from '@/views/RegisterView.vue'
 import LoginView from '@/views/LoginView.vue'
 import DashboardView from '@/views/DashboardView.vue'
 import ProfileView from '@/views/ProfileView.vue'
-import NoteView from '@/views/NoteView.vue'
-import EditNote from '@/views/EditNote.vue'
+import EditCar from '@/views/EditCar.vue'
 
 const routes = [
   {
@@ -39,16 +38,9 @@ const routes = [
     meta: { requiresAuth: true },
   },
   {
-    path: '/note/:id',
-    name: 'note',
-    component: NoteView,
-    meta: { requiresAuth: true },
-    props: true,
-  },
-  {
-    path: '/note/:id',
-    name: 'editNote',
-    component: EditNote,
+    path: '/car/:id',
+    name: 'editCar',
+    component: EditCar,
     meta: { requiresAuth: true },
     props: true,
   }
