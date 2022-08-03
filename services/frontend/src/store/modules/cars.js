@@ -16,16 +16,18 @@ const actions = {
         await axios.post('cars', car);
     },
     async getCars({ commit }) {
+
+        console.log("TEST")
         let { data } = await axios.get('cars');
         commit('setCars', data);
     },
-    async viewCar({ commit }, id) {
+    async getCar({ commit }, id) {
         let { data } = await axios.get(`car/${id}`);
         commit('setCar', data);
     },
     // eslint-disable-next-line no-empty-pattern
     async updateCar({ }, car) {
-        await axios.patch(`car/${car.id}`, car.form);
+        await axios.patch(`car/${car.id}`, car.details);
     },
     // eslint-disable-next-line no-empty-pattern
     async deleteCar({ }, id) {

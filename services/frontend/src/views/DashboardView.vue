@@ -1,102 +1,179 @@
 <template>
   <div>
     <section>
-      <h4>Add new note</h4>
+      <h4>Overview</h4>
 
-      <q-form @submit="submit">
-        <div class="q-gutter-md" style="max-width:350px">
-          <q-input
-            outlined
-            color="black"
-            type="text"
-            name="title"
-            label="Title"
-            v-model="form.title"
-            lazy-rules
-            :rules="[
-              (val) => (val && val.length > 0) || 'Please type something',
-            ]"
-          />
-          <q-input
-            outlined
-            color="black"
-            type="text"
-            name="content"
-            label="Content"
-            v-model="form.content"
-            autogrow
-            lazy-rules
-            :rules="[
-              (val) => (val && val.length > 0) || 'Please type something',
-            ]"
-          />
-        </div>
-        <q-btn type="submit" color="accent" label="Submit" />
-      </q-form>
-    </section>
+      <div class="q-pa-md">
+        <q-table
+          title="Cars"
+          :rows="cars"
+          :columns="columns"
+          row-key="make"
+          :filter="filter"
+        >
+          <template v-slot:top-right>
+            <q-input
+              borderless
+              dense
+              debounce="300"
+              v-model="filter"
+              placeholder="Search"
+            >
+              <template v-slot:append>
+                <q-icon name="search" />
+              </template>
+            </q-input>
+          </template>
 
-    <br /><br />
-
-    <section>
-      <h4>Notes</h4>
-
-      <div v-if="notes.length" class="q-pa-md row items-start q-gutter-md">
-        <div v-for="note in notes" :key="note.id" class="notes">
-          <q-card flat bordered>
-            <q-card-section horizontal>
-              <q-card-section class="q-pt-xs">
-                <div class="text-overline">By {{ note.author.username }}</div>
-                <div class="text-h5 q-mt-sm q-mb-xs">{{ note.title }}</div>
-              </q-card-section>
-            </q-card-section>
-            <q-separator />
-
-            <q-card-actions>
-              <q-btn flat color="accent" @click="viewNote(note.id)">View</q-btn>
-            </q-card-actions>
-          </q-card>
-          <br />
-        </div>
-      </div>
-
-      <div v-else>
-        <p>Nothing to see. Check back later.</p>
+          <template v-slot:body-cell-actions="props">
+            <q-td :props="props">
+              <q-btn
+                dense
+                round
+                flat
+                color="grey"
+                @click="editCar(props.row.id)"
+                icon="edit"
+              >
+                <q-tooltip class="grey" :offset="[10, 10]">
+                  Edit car entry
+                </q-tooltip>
+              </q-btn>
+              <q-btn
+                dense
+                round
+                flat
+                color="grey"
+                @click="simulateSale(props.row.id)"
+                icon="sell"
+              >
+                <q-tooltip class="grey" :offset="[10, 10]">
+                  Simulate car sale
+                </q-tooltip>
+              </q-btn>
+              <q-btn
+                dense
+                round
+                flat
+                color="grey"
+                @click="deleteCar(props.row.id)"
+                icon="delete"
+              >
+                <q-tooltip class="grey" :offset="[10, 10]">
+                  Delete car entry
+                </q-tooltip>
+              </q-btn>
+            </q-td>
+          </template>
+        </q-table>
       </div>
     </section>
   </div>
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { computed, ref } from "vue";
+import { useStore } from "vuex";
+import { useRouter } from "vue-router";
+
 export default {
   name: "DashboardView",
-  data() {
-    return {
-      form: {
-        title: "",
-        content: "",
+  setup() {
+    const store = useStore();
+    const router = useRouter();
+    
+    store.dispatch("getCars");
+    const cars = computed(() => store.getters["stateCars"])
+
+    const columns = [
+      {
+        name: "make",
+        label: "Make",
+        field: "make",
+        sortable: true,
       },
-    };
-  },
-  created: function () {
-    return this.$store.dispatch("getNotes");
-  },
-  computed: {
-    ...mapGetters({ notes: "stateNotes" }),
-  },
-  methods: {
-    ...mapActions(["createNote"]),
-    async submit() {
-      await this.createNote(this.form);
-    },
-    async viewNote(noteId) {
-      console.log(noteId);
+      {
+        name: "model",
+        label: "Model",
+        field: "model",
+        sortable: true,
+      },
+      {
+        name: "mileage",
+        label: "Mileage",
+        field: "mileage",
+        sortable: true,
+      },
+      {
+        name: "fuel",
+        label: "Fuel Type",
+        field: "fuel",
+        sortable: true,
+      },
+      {
+        name: "gear",
+        label: "Gear Type",
+        field: "gear",
+        sortable: true,
+      },
+      {
+        name: "offer_type",
+        label: "Offer Type",
+        field: "offer_type",
+        sortable: true,
+      },
+      {
+        name: "hp",
+        label: "HP",
+        field: "hp",
+        sortable: true,
+      },
+      {
+        name: "year",
+        label: "Year",
+        field: "year",
+        sortable: true,
+      },
+      {
+        name: "price",
+        label: "Price (€)",
+        field: "price",
+        sortable: true,
+      },
+      {
+        name: "is_custom",
+        label: "Price Type",
+        field: "is_custom",
+        sortable: true,
+        format: (val) => (val ? "Custom" : "AI"),
+      },
+      { name: "actions", label: "Actions", field: "", align: "center" },
+    ];
+
+    const editCar = (carId) => {
       try {
-        this.$router.push({ name: "note", params: { id: noteId } });
+        router.push({ name: "editCar", params: { id: carId } });
       } catch (error) {
-        console.log("Note cannot be opened.");
+        console.log("Entry cannot be edited.", error);
       }
-    },
+    };
+
+    const deleteCar = (carId) => {
+      try {
+        store.dispatch("deleteCar", carId);
+        router.push({ name: "dashboard" });
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    return {
+      filter: ref(""),
+      cars,
+      columns,
+      editCar,
+      deleteCar,
+    };
   },
 };
 </script>

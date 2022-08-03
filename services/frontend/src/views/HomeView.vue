@@ -268,7 +268,7 @@
                   label="Custom Price"
                   v-if="car.is_custom"
                   outlined
-                  v-model="customPrice"
+                  v-model="car.price"
                   type="number"
                   prefix="€"
                   lazy-rules
@@ -290,6 +290,33 @@
           </q-form>
         </q-step>
       </q-stepper>
+      <q-dialog
+        v-model="successDialog"
+        transition-show="scale"
+        transition-hide="scale"
+      >
+        <q-card class="bg-primary text-black" style="width: 300px">
+          <q-card-section>
+            <div class="text-h6">You successfully submitted your car</div>
+          </q-card-section>
+
+          <q-card-section class="q-pt-none">
+            Please use this code to check the status of the sale:
+            {{ code }}
+          </q-card-section>
+
+          <q-card-actions align="right" class="bg-white text-accent">
+            <q-btn
+              flat
+              label="OK"
+              @click="
+                $router.push({ name: 'home' });
+                $router.go();
+              "
+            />
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
     </div>
   </section>
 </template>
@@ -314,11 +341,11 @@ export default {
       fuel: "",
       gear: "",
       offer_type: "",
+      price: null,
       is_custom: false,
     });
-    const price = ref(0);
-    const customPrice = ref(null);
-    const step = ref(4);
+    const step = ref(2);
+    const successDialog = ref(false);
 
     const image = ref(null);
     const imageUrl = ref("");
@@ -329,20 +356,19 @@ export default {
     };
     const onSubmitCarDetails = () => {
       //INFERENCE HERE//
-      price.value = Math.ceil(Math.random() * 1000);
-
+      car.value.price = Math.ceil(Math.random() * 1000);
       step.value = 3;
     };
     const onSubmitListing = () => {
       console.log("Success");
       console.log(car.value);
       store.dispatch("createCar", car.value);
+      successDialog.value = true;
     };
     return {
       car,
-      price,
-      customPrice,
       prompt: ref(false),
+      successDialog,
       step,
       image,
       imageUrl,
