@@ -1,21 +1,15 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: "{replaced with MLflow Project name}"
-  namespace: mlflow
+  name: ds-ai
+  namespace: group5
 spec:
-  ttlSecondsAfterFinished: 100
-  backoffLimit: 0
+  ttlSecondsAfterFinished: 300
+  backoffLimit: 1
   template:
     spec:
       containers:
-      - name: "{replaced with MLflow Project name}"
-        image: "{replaced with URI of Docker image created during Project execution}"
-        command: ["{replaced with MLflow Project entry point command}"]
-        env: ["{appended with MLFLOW_TRACKING_URI, MLFLOW_RUN_ID and MLFLOW_EXPERIMENT_ID}"]
-        resources:
-          limits:
-            memory: 512Mi
-          requests:
-            memory: 256Mi
+      - name: ds-ai
+        image: group5se4ai22/repo_mlflow_group5se4ai22
+        command: ["python", "train.py"]
       restartPolicy: Never

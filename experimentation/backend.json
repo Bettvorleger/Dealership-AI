@@ -1,4 +1,0 @@
-{
-    "repository-uri": "docker.io/group5se4ai22/repo_backend_group5se4ai22",
-    "kube-job-template-path": "mlflow.yaml"
-  }
