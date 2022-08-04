@@ -5,11 +5,15 @@
 
       <div class="q-pa-md">
         <q-table
+          dense
+          flat
+          bordered
           title="Cars"
           :rows="cars"
           :columns="columns"
           row-key="make"
           :filter="filter"
+          :rows-per-page-options="[20,50,100]"
         >
           <template v-slot:top-right>
             <q-input
@@ -43,8 +47,8 @@
                 dense
                 round
                 flat
-                color="grey"
-                @click="simulateSale(props.row.id)"
+                :color="!props.row.is_sold ? 'grey' : 'accent'"
+                @click="simulateSale(props.row)"
                 icon="sell"
               >
                 <q-tooltip class="grey" :offset="[10, 10]">
@@ -81,9 +85,9 @@ export default {
   setup() {
     const store = useStore();
     const router = useRouter();
-    
+
     store.dispatch("getCars");
-    const cars = computed(() => store.getters["stateCars"])
+    const cars = computed(() => store.getters["stateCars"]);
 
     const columns = [
       {
@@ -141,6 +145,13 @@ export default {
         sortable: true,
       },
       {
+        name: "is_sold",
+        label: "Sale Status",
+        field: "is_sold",
+        sortable: true,
+        format: (val) => (val ? "Sold" : "Not sold"),
+      },
+      {
         name: "is_custom",
         label: "Price Type",
         field: "is_custom",
@@ -167,12 +178,22 @@ export default {
       }
     };
 
+    const simulateSale = (car) => {
+      try {
+        car.is_sold = true;
+        store.dispatch("updateCar", car);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
     return {
       filter: ref(""),
       cars,
       columns,
       editCar,
       deleteCar,
+      simulateSale,
     };
   },
 };

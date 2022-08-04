@@ -79,7 +79,6 @@ export default {
     store.dispatch("getCar", props.id);
     const car = computed(() => store.getters.stateCar);
 
-    console.log(car.value);
     const submit = () => {
       try {
         let data = {

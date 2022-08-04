@@ -8,6 +8,8 @@ import LoginView from '@/views/LoginView.vue'
 import DashboardView from '@/views/DashboardView.vue'
 import ProfileView from '@/views/ProfileView.vue'
 import EditCar from '@/views/EditCar.vue'
+import StatusView from '@/views/StatusView.vue'
+import NotFound from '@/views/NotFound.vue'
 
 const routes = [
   {
@@ -43,6 +45,17 @@ const routes = [
     component: EditCar,
     meta: { requiresAuth: true },
     props: true,
+  },
+  {
+    path: '/status/:pCode?',
+    name: 'status',
+    component: StatusView,
+    props: true,
+  },
+  {
+    path:  '/:catchAll(.*)',
+    name: '404',
+    component: NotFound
   }
 
 ]

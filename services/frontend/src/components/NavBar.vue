@@ -13,6 +13,7 @@
       <div v-if="isLoggedIn" class="col" align="center">
         <q-tabs>
           <q-route-tab :to="{ name: 'home' }" label="Home" />
+          <q-route-tab :to="{ name: 'status' }" label="Status" />
           <q-route-tab :to="{ name: 'dashboard' }" label="Dashboard" />
         </q-tabs>
       </div>
@@ -20,6 +21,7 @@
       <div v-else class="col" align="center">
         <q-tabs>
           <q-route-tab :to="{ name: 'home' }" label="Home" />
+          <q-route-tab :to="{ name: 'status' }" label="Status" />
           <q-route-tab :to="{ name: 'register' }" label="Register" />
         </q-tabs>
       </div>

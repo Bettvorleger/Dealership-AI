@@ -25,7 +25,6 @@ async def get_cars():
 @router.get(
     "/car/{car_id}",
     response_model=CarOutSchema,
-    dependencies=[Depends(get_current_user)],
 )
 async def get_car(car_id: int) -> CarOutSchema:
     try:

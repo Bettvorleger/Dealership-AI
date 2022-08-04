@@ -322,6 +322,7 @@
 </template>
 <script>
 import { ref } from "vue";
+import { useRouter } from "vue-router";
 import InputText from "../components/InputText.vue";
 import SelectText from "../components/SelectText.vue";
 import { useStore } from "vuex";
@@ -331,6 +332,7 @@ export default {
   components: { InputText, SelectText },
   setup() {
     const store = useStore();
+    const router = useRouter();
 
     let car = ref({
       make: "",
@@ -366,6 +368,7 @@ export default {
       car.value.price = customPrice.value
       store.dispatch("createCar", car.value).then((resp) => {
         code.value = btoa(resp.id).replace('=','');
+        router.push({ name: "status", params: { pCode: code.value } });
         successDialog.value = true;
       });
     };

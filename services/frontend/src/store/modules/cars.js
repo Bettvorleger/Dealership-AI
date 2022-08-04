@@ -15,11 +15,6 @@ const actions = {
     async createCar({ }, car) {
         try {
             let res = await axios.post('cars', car);
-            if (res.status == 200) {
-                console.log(car)
-                console.log(res.status)
-            }
-            console.log(res.data)
             return res.data
         }
         catch (err) {
@@ -27,16 +22,28 @@ const actions = {
         }
     },
     async getCars({ commit }) {
-        let { data } = await axios.get('cars');
-        commit('setCars', data);
+        try {
+            let { data } = await axios.get('cars');
+            commit('setCars', data);
+        } catch (err) {
+            console.error(err);
+        }
     },
     async getCar({ commit }, id) {
-        let { data } = await axios.get(`car/${id}`);
-        commit('setCar', data);
+        try {
+            let { data } = await axios.get(`car/${id}`);
+            commit('setCar', data);
+        } catch (err) {
+            return -1
+        }
     },
     // eslint-disable-next-line no-empty-pattern
     async updateCar({ }, car) {
-        await axios.patch(`car/${car.id}`, car.details);
+        try {
+            await axios.patch(`car/${car.id}`, car);
+        } catch (e) {
+            console.log(e)
+        }
     },
     async deleteCar({ dispatch }, id) {
         await axios.delete(`car/${id}`);

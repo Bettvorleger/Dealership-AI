@@ -24,3 +24,4 @@ class UpdateCar(BaseModel):
     hp: Optional[int]
     year: Optional[int]
     price: Optional[int]
+    is_sold: Optional[bool]
