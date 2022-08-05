@@ -155,13 +155,13 @@
         </q-step>
 
         <q-step :name="3" title="Review" prefix="3" :done="step > 2">
-          <div class="q-ml-xl">
+          <div v-if="!noListing" class="q-ml-xl">
             <h5 class="q-mb-sm">Review the predicted price</h5>
             <p class="text-body2">
               Check the predicted value of your car. You can also see the
               reasons for a potentially low or high price here.
             </p>
-            <div v-if="!noListing" class="row text-h6">
+            <div class="row text-h6">
               Your cars predicted value: {{ car.price }}€
               <q-btn
                 class="q-ml-md"
@@ -174,16 +174,6 @@
               >
                 <q-tooltip class="accent">Report an error</q-tooltip>
               </q-btn>
-            </div>
-            <div v-else class="row text-h6">
-              Sorry, the value of your car cannot be predicted by our AI model.
-              These reasons could apply:
-              <ul>
-                <li>The car is too rare or not known to our AI</li>
-                <li>The car details you provided are not correct</li>
-                <li>The car has close to no value on the used car market</li>
-              </ul>
-              
             </div>
 
             <div class="q-pa-md row items-start q-gutter-md">
@@ -235,6 +225,20 @@
                 label="Continue"
                 class="q-ml-sm"
               />
+            </q-stepper-navigation>
+          </div>
+          <div v-else>
+            <div class="text-bold">
+              Sorry, the value of your car cannot be predicted by our AI model.
+              These reasons could apply:
+            </div>
+            <ul>
+              <li>The car is too rare or not known to our AI</li>
+              <li>The car details you provided are not correct</li>
+              <li>The car has close to no value on the used car market</li>
+            </ul>
+            <q-stepper-navigation>
+              <q-btn flat @click="step = 2" color="accent" label="Back" />
             </q-stepper-navigation>
           </div>
         </q-step>
@@ -343,10 +347,7 @@
             <q-btn
               flat
               label="OK"
-              @click="
-                $router.push({ name: 'home' });
-                $router.go();
-              "
+              @click="$router.push({ name: 'status', params: { pCode: code } })"
             />
           </q-card-actions>
         </q-card>
@@ -356,7 +357,6 @@
 </template>
 <script>
 import { ref, computed } from "vue";
-import { useRouter } from "vue-router";
 import InputText from "../components/InputText.vue";
 import SelectText from "../components/SelectText.vue";
 import { useStore } from "vuex";
@@ -366,7 +366,6 @@ export default {
   components: { InputText, SelectText },
   setup() {
     const store = useStore();
-    const router = useRouter();
 
     let car = ref({
       make: "",
@@ -406,16 +405,15 @@ export default {
           noListing.value = false;
         }
       });
-
-      car.value.price = Math.ceil(Math.random() * 1000);
       customPrice.value = car.value.price;
       step.value = 3;
     };
     const onSubmitListing = () => {
-      car.value.price = customPrice.value;
+      if (customPrice.value) {
+        car.value.price = customPrice.value;
+      }
       store.dispatch("createCar", car.value).then((resp) => {
         code.value = btoa(resp.id).replace("=", "");
-        router.push({ name: "status", params: { pCode: code.value } });
         successDialog.value = true;
       });
     };

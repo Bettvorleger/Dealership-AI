@@ -119,7 +119,7 @@
             </q-item-section>
           </q-item>
         </q-list>
-        <div class="text-center" v-if="car.is_sold">
+        <div class="text-center" v-if="car.is_sold && !car.is_custom">
           <div class="text-h6">
             Congratulaions, your car has been sold for {{ car.price }}€.
           </div>
@@ -150,6 +150,7 @@ export default {
     const store = useStore();
 
     const car = computed(() => store.getters.stateCar);
+    console.log(car.value)
     const showCar = ref(false);
     const code = ref(props.pCode);
     const codeExists = ref(true);

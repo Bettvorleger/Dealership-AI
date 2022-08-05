@@ -5,7 +5,7 @@ import json
 
 import src.inference as inference
 from src.database.models import Cars
-from src.schemas.cars import CarOutSchema, Filter
+from src.schemas.cars import CarOutSchema, CarOutTrainSchema, Filter
 from src.schemas.token import Status
 
 
@@ -51,3 +51,7 @@ async def delete_car(car_id) -> Status:
 async def get_price(car) -> int:
     price = await inference.predict(car)
     return price
+
+
+async def get_sold_cars():
+    return await CarOutTrainSchema.from_queryset(Cars.filter(is_sold='true'))

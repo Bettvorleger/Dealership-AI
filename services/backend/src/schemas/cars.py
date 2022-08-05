@@ -12,6 +12,9 @@ CarInSchema = pydantic_model_creator(
 CarOutSchema = pydantic_model_creator(
     Cars, name="Car", exclude=["modified_at"])
 
+CarOutTrainSchema = pydantic_model_creator(
+    Cars, name="CarsTrainingData", exclude=["is_sold","is_custom"], exclude_readonly=True)
+
 
 # just for filter
 class Filter(BaseModel):
