@@ -1,4 +1,5 @@
-{
-    "repository-uri": "docker.io/group5se4ai22/repo_mlflow_group5se4ai22",
-    "kube-job-template-path": "mlflow.yaml"
-  }
+{   
+  "kube-context": "oidc@kubernetes",
+  "repository-uri": "docker.io/group5se4ai22/repo_mlflow_group5se4ai22",
+  "kube-job-template-path": "mlflow.yaml"
+}
