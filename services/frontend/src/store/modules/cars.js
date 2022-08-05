@@ -3,11 +3,13 @@ import axios from 'axios';
 const state = {
     cars: null,
     car: null,
+    filter: null,
 };
 
 const getters = {
     stateCars: state => state.cars,
     stateCar: state => state.car,
+    stateFilter: state => state.filter,
 };
 
 const actions = {
@@ -49,6 +51,25 @@ const actions = {
         await axios.delete(`car/${id}`);
         await dispatch('getCars');
     },
+    // eslint-disable-next-line no-empty-pattern
+    async getPrice({ }, car) {
+        try {
+            let res = await axios.post('price', car);
+            return res.data
+        }
+        catch (err) {
+            console.error(err);
+        }
+    },
+    async getFilter({ commit }) {
+        try {
+            let { data } = await axios.get('filter');
+            commit('setFilter', data);
+        }
+        catch (err) {
+            console.error(err);
+        }
+    },
 };
 
 const mutations = {
@@ -57,6 +78,9 @@ const mutations = {
     },
     setCar(state, car) {
         state.car = car;
+    },
+    setFilter(state, filter) {
+        state.filter = filter;
     },
 };
 

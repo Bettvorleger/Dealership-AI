@@ -3,12 +3,15 @@
     <q-input
       color="accent"
       outlined
+      style="min-width: 120px"
       v-model="input"
       :label="label"
       :hint="hint"
       :type="type"
       lazy-rules
       :rules="rules"
+      :min="min"
+      :max="max"
     />
   </div>
 </template>
@@ -24,6 +27,8 @@ export default {
     hint: String,
     rules: Array,
     type: String,
+    min: Number,
+    max: Number,
   },
   setup(props, { emit }) {
     const input = computed({

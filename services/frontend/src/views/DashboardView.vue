@@ -35,6 +35,7 @@
                 dense
                 round
                 flat
+                :disabled="!props.row.is_sold ? 'false' : 'true'"
                 color="grey"
                 @click="editCar(props.row.id)"
                 icon="edit"
@@ -47,7 +48,8 @@
                 dense
                 round
                 flat
-                :color="!props.row.is_sold ? 'grey' : 'accent'"
+                color="grey"
+                :disabled="!props.row.is_sold ? 'false' : 'true'"
                 @click="simulateSale(props.row)"
                 icon="sell"
               >

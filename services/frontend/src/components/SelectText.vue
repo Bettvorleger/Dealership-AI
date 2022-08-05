@@ -23,8 +23,6 @@
 <script>
 import { computed, ref } from "vue";
 
-const stringOptions = ["Google", "Facebook", "Twitter", "Apple", "Oracle"];
-
 export default {
   name: "SelectText",
   props: {
@@ -32,9 +30,10 @@ export default {
     label: String,
     hint: String,
     rules: Array,
+    stringOptions: Array,
   },
   setup(props, { emit }) {
-    const options = ref(stringOptions);
+    const options = ref(props.stringOptions);
     const input = computed({
       get: () => props.modelValue,
       set: (value) => emit("update:modelValue", value),
@@ -42,12 +41,12 @@ export default {
     const filterFn = (val, update) => {
       if (val === "") {
         update(() => {
-          options.value = stringOptions;
+          options.value = props.stringOptions;
         });
       } else {
         update(() => {
           const needle = val.toLowerCase();
-          options.value = stringOptions.filter(
+          options.value = props.stringOptions.filter(
             (v) => v.toLowerCase().indexOf(needle) > -1
           );
         });

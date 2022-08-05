@@ -71,9 +71,19 @@
               prediction.
             </p>
             <div class="q-gutter-md q-mb-md row">
-              <SelectText v-model="car.make" label="Make" :rules="required" />
+              <SelectText
+                v-model="car.make"
+                label="Make"
+                :stringOptions="filter.make"
+                :rules="required"
+              />
 
-              <SelectText v-model="car.model" label="Model" :rules="required" />
+              <SelectText
+                v-model="car.model"
+                label="Model"
+                :stringOptions="filter.model[car.make]"
+                :rules="required"
+              />
             </div>
             <div class="q-gutter-md q-mb-md row">
               <InputText
@@ -81,6 +91,7 @@
                 label="Mileage"
                 :rules="required"
                 type="number"
+                :min="0"
               />
 
               <InputText
@@ -88,6 +99,8 @@
                 label="HP"
                 :rules="required"
                 type="number"
+                :min="1"
+                :max="1000"
               />
 
               <InputText
@@ -95,6 +108,8 @@
                 label="Year"
                 hint="First registration"
                 :rules="required.concat(yearVal)"
+                :min="1900"
+                :max="new Date().getFullYear()"
                 type="number"
               />
             </div>
@@ -103,18 +118,27 @@
                 v-model="car.gear"
                 label="Gear Type"
                 :rules="required"
+                :stringOptions="['Manual', 'Automatic', 'Semi-automatic']"
               />
 
               <SelectText
                 v-model="car.fuel"
                 label="Fuel Type"
                 :rules="required"
+                :stringOptions="filter.fuel"
               />
 
               <SelectText
                 v-model="car.offer_type"
                 label="Offer Type"
                 :rules="required"
+                :stringOptions="[
+                  'Used',
+                  'Demonstration',
+                  'Employee\'s car',
+                  'Pre-registered',
+                  'New',
+                ]"
               />
             </div>
 
@@ -321,7 +345,7 @@
   </section>
 </template>
 <script>
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
 import InputText from "../components/InputText.vue";
 import SelectText from "../components/SelectText.vue";
@@ -346,10 +370,10 @@ export default {
       is_custom: false,
       price: null,
     });
-    const customPrice = ref(0)
+    const customPrice = ref(0);
     const step = ref(2);
     const successDialog = ref(false);
-    const code = ref(null)
+    const code = ref(null);
 
     const image = ref(null);
     const imageUrl = ref("");
@@ -358,22 +382,30 @@ export default {
         imageUrl.value = URL.createObjectURL(image.value);
       }
     };
+
+    store.dispatch("getFilter");
+    const filter = computed(() => store.getters["stateFilter"]);
+
     const onSubmitCarDetails = () => {
-      //INFERENCE HERE//
+      store.dispatch("getPrice", car.value).then((resp) => {
+        car.value.price = resp;
+      });
+
       car.value.price = Math.ceil(Math.random() * 1000);
-      customPrice.value = car.value.price
+      customPrice.value = car.value.price;
       step.value = 3;
     };
     const onSubmitListing = () => {
-      car.value.price = customPrice.value
+      car.value.price = customPrice.value;
       store.dispatch("createCar", car.value).then((resp) => {
-        code.value = btoa(resp.id).replace('=','');
+        code.value = btoa(resp.id).replace("=", "");
         router.push({ name: "status", params: { pCode: code.value } });
         successDialog.value = true;
       });
     };
     return {
       car,
+      filter,
       customPrice,
       prompt: ref(false),
       successDialog,

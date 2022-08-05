@@ -6,7 +6,7 @@ from tortoise.exceptions import DoesNotExist
 
 import src.crud.cars as crud
 from src.auth.jwthandler import get_current_user
-from src.schemas.cars import CarOutSchema, CarInSchema, UpdateCar
+from src.schemas.cars import CarOutSchema, Filter, CarInSchema, UpdateCar, InferenceCar
 from src.schemas.token import Status
 
 
@@ -67,3 +67,19 @@ async def delete_car(
     car_id: int
 ):
     return await crud.delete_car(car_id)
+
+
+@router.get(
+    "/filter",
+    response_model=Filter
+)
+async def get_filters() -> Filter:
+    return await crud.get_filter()
+
+
+@router.post(
+    "/price",
+    response_model=int
+)
+async def get_price(car: InferenceCar) -> int:
+    return await crud.get_price(car)
