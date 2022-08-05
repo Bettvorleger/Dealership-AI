@@ -86,13 +86,6 @@ if __name__ == "__main__":
     regr.fit(X_train, Y_train)
 
     #########################
-    ### Ridge Regression ####
-    #########################
-
-    #regr = Ridge(alpha=0.0)
-    #regr.fit(X_train, Y_train)
-
-    #########################
     ### Lasso Regression ####
     #########################
 
