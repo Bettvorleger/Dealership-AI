@@ -6,4 +6,7 @@ passlib
 python-jose
 python-multipart
 tortoise-orm
+mlflow
+sklearn
+pandas
 uvicorn

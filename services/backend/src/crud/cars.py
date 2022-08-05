@@ -3,6 +3,7 @@ from tortoise import Tortoise
 from tortoise.exceptions import DoesNotExist
 import json
 
+import src.inference as inference
 from src.database.models import Cars
 from src.schemas.cars import CarOutSchema, Filter
 from src.schemas.token import Status
@@ -48,5 +49,5 @@ async def delete_car(car_id) -> Status:
 
 
 async def get_price(car) -> int:
-    price = 100
+    price = await inference.predict(car)
     return price

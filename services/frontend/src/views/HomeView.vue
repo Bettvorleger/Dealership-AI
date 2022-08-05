@@ -161,7 +161,7 @@
               Check the predicted value of your car. You can also see the
               reasons for a potentially low or high price here.
             </p>
-            <div class="row text-h6">
+            <div v-if="!noListing" class="row text-h6">
               Your cars predicted value: {{ car.price }}€
               <q-btn
                 class="q-ml-md"
@@ -174,6 +174,16 @@
               >
                 <q-tooltip class="accent">Report an error</q-tooltip>
               </q-btn>
+            </div>
+            <div v-else class="row text-h6">
+              Sorry, the value of your car cannot be predicted by our AI model.
+              These reasons could apply:
+              <ul>
+                <li>The car is too rare or not known to our AI</li>
+                <li>The car details you provided are not correct</li>
+                <li>The car has close to no value on the used car market</li>
+              </ul>
+              
             </div>
 
             <div class="q-pa-md row items-start q-gutter-md">
@@ -373,6 +383,7 @@ export default {
     const customPrice = ref(0);
     const step = ref(2);
     const successDialog = ref(false);
+    const noListing = ref(false);
     const code = ref(null);
 
     const image = ref(null);
@@ -389,6 +400,11 @@ export default {
     const onSubmitCarDetails = () => {
       store.dispatch("getPrice", car.value).then((resp) => {
         car.value.price = resp;
+        if (resp <= 0) {
+          noListing.value = true;
+        } else {
+          noListing.value = false;
+        }
       });
 
       car.value.price = Math.ceil(Math.random() * 1000);
@@ -409,6 +425,7 @@ export default {
       customPrice,
       prompt: ref(false),
       successDialog,
+      noListing,
       code,
       step,
       image,
