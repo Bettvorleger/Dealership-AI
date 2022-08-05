@@ -82,8 +82,8 @@ if __name__ == "__main__":
     ### Linear Regression ###
     #########################
 
-    #regr = LinearRegression()
-    #regr.fit(X_train, Y_train)
+    regr = LinearRegression()
+    regr.fit(X_train, Y_train)
 
     #########################
     ### Ridge Regression ####
@@ -96,8 +96,8 @@ if __name__ == "__main__":
     ### Lasso Regression ####
     #########################
 
-    regr = Lasso(alpha=0.0)
-    regr.fit(X_train, Y_train)
+    #regr = Lasso(alpha=0.0)
+    #regr.fit(X_train, Y_train)
 
     predicted = regr.predict(X_test)
 
