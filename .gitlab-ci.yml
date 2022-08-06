@@ -22,6 +22,7 @@ build-backend:
   rules:
     - if: $CI_COMMIT_TAG
 
+
 build-frontend:
   stage: build
   image:
@@ -37,6 +38,7 @@ build-frontend:
       --destination "${CI_REGISTRY_IMAGE_FRONTEND}:${CI_COMMIT_TAG}"
   rules:
     - if: $CI_COMMIT_TAG
+    
 
 build-scraper:
   stage: build
@@ -51,6 +53,22 @@ build-scraper:
       --context "${CI_PROJECT_DIR}/services/scraper"
       --dockerfile "${CI_PROJECT_DIR}/services/scraper/Dockerfile"
       --destination "${CI_REGISTRY_IMAGE_SCRAPER}:${CI_COMMIT_TAG}"
+  rules:
+    - if: $CI_COMMIT_TAG
+
+build-experimentation:
+  stage: build
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+  script:
+    - mkdir -p /kaniko/.docker
+    - echo "{\"auths\":{\"${CI_REGISTRY}\":{\"auth\":\"$(printf "%s:%s" "${CI_REGISTRY_USER}" "${CI_REGISTRY_PASSWORD}" | base64 | tr -d '\n')\"}}}" > /kaniko/.docker/config.json
+    - >-
+      /kaniko/executor
+      --context "${CI_PROJECT_DIR}/experimentation"
+      --dockerfile "${CI_PROJECT_DIR}/experimentation/Dockerfile"
+      --destination "${CI_REGISTRY_IMAGE_EXPERIMENTATION}:${CI_COMMIT_TAG}"
   rules:
     - if: $CI_COMMIT_TAG
 
@@ -123,3 +141,17 @@ deploy-scraper:
     - kubectl config set-context ci-k8s --cluster=k8s --user=ci-user --namespace=group5
     - kubectl config use-context ci-k8s
     - kubectl apply -f scraper.yaml
+
+deploy-experimentation:
+  stage: deploy
+  image:
+    name: bitnami/kubectl:latest
+    entrypoint: ['']
+  script:
+    - cd experimentation
+    - kubectl config set clusters.k8s.certificate-authority-data $K8S_CERTIFICATE 
+    - kubectl config set clusters.k8s.server $K8S_SERVER
+    - kubectl config set users.ci-user.token $K8S_TOKEN
+    - kubectl config set-context ci-k8s --cluster=k8s --user=ci-user --namespace=group5
+    - kubectl config use-context ci-k8s
+    - kubectl apply -f mlflow.yaml
