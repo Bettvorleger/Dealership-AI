@@ -103,7 +103,6 @@ def get_sold_data():
         sold_car.drop("price", axis=1, inplace=True)
         sold_car.insert(6, "price", column_price)
 
-        #sold_car = sold_car.astype({"mileage": "Int64", "price": "Int64","hp": "float64", "year": "Int64"})
         sold_car = sold_car.astype({"hp": "float64"})
         sold_car = sold_car.rename(columns={"offer_type": "offerType"})
 

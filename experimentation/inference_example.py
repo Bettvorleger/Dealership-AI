@@ -6,11 +6,22 @@ os.environ['MLFLOW_TRACKING_USERNAME'] = 'group5'
 os.environ['MLFLOW_TRACKING_PASSWORD'] = 'BVT4mSsG4'
 os.environ['MLFLOW_TRACKING_URI'] = 'https://mlflow.sws.informatik.uni-leipzig.de'
 
+
+model_name = "group-5-model"
+stage = "Production"
+
+registered_model = mlflow.pyfunc.load_model(model_uri=f"models:/{model_name}/{stage}")
+
 # run id of the model to use
 logged_model = 'runs:/41f613b9d4c148e49e688db0e09177a1/linearmodel'
 
 # Load model
-loaded_model = mlflow.pyfunc.load_model(logged_model)
+#loaded_model = mlflow.pyfunc.load_model(logged_model)
+
+loaded_model = registered_model
+
+print(loaded_model)
+
 
 columns = ['mileage', 'make', 'model', 'fuel', 'gear', 'offerType', 'hp', 'year']
 

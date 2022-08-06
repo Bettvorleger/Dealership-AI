@@ -8,6 +8,9 @@ from sklearn.linear_model import LinearRegression
 from sklearn.linear_model import Ridge
 from sklearn.linear_model import Lasso
 
+from sklearn.linear_model import ElasticNetCV
+from sklearn.model_selection import RepeatedKFold
+
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 
@@ -82,7 +85,6 @@ if __name__ == "__main__":
 
     regr = LinearRegression()
     regr.fit(X_train, Y_train)
-
     run_name = run_name + "_Linear"
 
     #########################
@@ -91,10 +93,9 @@ if __name__ == "__main__":
 
     #regr = Lasso(alpha=0.0)
     #regr.fit(X_train, Y_train)
-
-    #tag for kubernetes
     #run_name = run_name + "_Lasso"
 
+    # predict on X_test
     predicted = regr.predict(X_test)
 
     # our experiment name in mlflow

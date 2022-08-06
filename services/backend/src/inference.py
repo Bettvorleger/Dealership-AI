@@ -8,11 +8,26 @@ os.environ['MLFLOW_TRACKING_URI'] = 'https://mlflow.sws.informatik.uni-leipzig.d
 
 
 async def predict(car) -> int:
+
+    model_name = "group-5-model"
+    stage = "Production"
+
+    registered_model = mlflow.pyfunc.load_model(model_uri=f"models:/{model_name}/{stage}")
+
     # run id of the model to use
-    logged_model = 'runs:/41f613b9d4c148e49e688db0e09177a1/linearmodel'
+    #logged_model = 'runs:/41f613b9d4c148e49e688db0e09177a1/linearmodel'
 
     # Load model
-    loaded_model = mlflow.pyfunc.load_model(logged_model)
+    #loaded_model = mlflow.pyfunc.load_model(logged_model)
+    loaded_model = registered_model
+
+    '''
+    print(loaded_model) ->
+        mlflow.pyfunc.loaded_model:
+        artifact_path: linearmodel
+        flavor: mlflow.sklearn
+        run_id: 41f613b9d4c148e49e688db0e09177a1
+    '''
 
     columns = ['mileage', 'make', 'model', 'fuel', 'gear', 'offerType', 'hp', 'year']
 
