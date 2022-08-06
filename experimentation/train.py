@@ -11,6 +11,8 @@ from sklearn.linear_model import Lasso
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 
+from preprocessing import get_a24_data, get_scraping_data, get_sold_data, preprocess_data
+
 from minio import Minio
 
 def eval_metrics(actual, pred):
@@ -31,42 +33,35 @@ if __name__ == "__main__":
         secret_key="6scbjD5fbUSKuD1VULwNeAoaOlVAurIu",
     )
 
-    a24_obj = client.get_object("group5", "a24_data/autoscout24-germany-dataset.csv")
-    cars = pd.read_csv(a24_obj)
+    cars = get_a24_data(client)
+    #print(cars.size)
+    #print(cars)
+    #print(cars.dtypes)
 
+    cars_scraped = get_scraping_data(client)
+    #print(cars_scraped.size)
+    #print(cars_scraped)
+    #print(cars_scraped.dtypes)
+
+    cars_sold = get_sold_data()
+    #print(cars_sold.size)
+    #print(cars_sold)
+    #print(cars_sold.dtypes)
+
+    #cars = pd.concat([cars, cars_scraped, cars_sold], ignore_index=True)
+    
+    ### concat all data ###
+
+    #cars = pd.concat([cars, cars_scraped, cars_sold], ignore_index=True)
+    #print(cars.size)
+    #print(cars)
+    #print(cars.dtypes)
+    
     #########################
     ##### Preprocessing #####
     #########################
 
-    # unsinnige Einträge für "Marke" löschen
-    indices_to_be_deleted = cars.index[
-        cars['make'].isin(['Trucks-Lkw', 'Caravans-Wohnm', 'Trailer-Anhänger', 'Others', 'Piaggio'])].tolist()
-    cars = cars.drop(indices_to_be_deleted)
-
-    # Falsch benannte Marken korrigieren
-    # Alfa -> Alfa Romeo, Land -> Land Rover, Aston -> Aston Martin
-    cars['make'] = cars['make'].replace(['Alfa', 'Land', 'Aston'], ['Alfa Romeo', 'Land Rover', 'Aston Martin'])
-
-    # Falsch benannte Modelle korrigieren
-    cars.loc[cars['make'].isin(['Alfa Romeo', 'Land Rover']), 'model'] = cars.loc[cars['make'].isin(
-        ['Alfa Romeo', 'Land Rover']), 'model'].str[6:]
-    cars.loc[cars['make'] == 'Aston Martin', 'model'] = cars.loc[cars['make'] == 'Aston Martin', 'model'].str[7:]
-
-    # Unsinnige Werte für 'fuel' löschen
-    indices_to_be_deleted = cars.index[cars['fuel'].isin(['-/- (Fuel)', 'Others'])].tolist()
-    cars = cars.drop(indices_to_be_deleted)
-
-    # Unsinnige Werte für 'hp' löschen
-    indices_to_be_deleted = cars.index[cars['hp'] == 1.0].tolist()
-    cars = cars.drop(indices_to_be_deleted)
-
-    # Leere Werte löschen
-    indices_to_be_deleted = cars.index[cars['model'].isnull()].tolist()
-    cars = cars.drop(indices_to_be_deleted)
-    indices_to_be_deleted = cars.index[cars['gear'].isnull()].tolist()
-    cars = cars.drop(indices_to_be_deleted)
-    indices_to_be_deleted = cars.index[cars['hp'].isnull()].tolist()
-    cars = cars.drop(indices_to_be_deleted)
+    cars = preprocess_data(cars)
 
     # Variables for regression, X = matrix of regressors (all except price), Y contains regressand: price
     X = cars.drop('price', axis=1)
