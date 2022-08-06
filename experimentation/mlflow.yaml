@@ -12,7 +12,7 @@ spec:
         image: group5se4ai22/repo_mlflow_group5se4ai22
         env:
         - name: 'MLFLOW_RUN_NAME'
-          value: "kubernetes_run"
+          value: "kubernetes"
         resources:
           limits:
             nvidia.com/mig-2g.10gb: 1

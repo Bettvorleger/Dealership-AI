@@ -52,17 +52,21 @@ def get_a24_data(client):
 def get_scraping_data(client):
 
     weeks = list(range(1,53))
-    weeks = [28, 29, 30, 31]
 
     cars = pd.DataFrame()
 
     for week in weeks:
         try:
             path = "scraping_data/week_" + str(week) + "/scraped_car_data.csv"
+            
+            try:
+                scraping_obj = client.get_object("group5", path)
+                cars_scraped = pd.read_csv(scraping_obj, sep=';')
 
-            scraping_obj = client.get_object("group5", path)
+            finally:
+                scraping_obj.close()
+                scraping_obj.release_conn()
 
-            cars_scraped = pd.read_csv(scraping_obj, sep=';')
 
             for column in cars_scraped.columns:
                 indices_to_be_deleted = cars_scraped.index[cars_scraped[column].isnull()].tolist()
@@ -72,12 +76,8 @@ def get_scraping_data(client):
 
             cars = pd.concat([cars, cars_scraped], ignore_index=True)
 
-            scraping_obj.close()
-            scraping_obj.release_conn()
-
         except Exception as e:
-            print(path)
-            print(e)
+            #print(e)
             pass
 
     return cars
@@ -85,6 +85,7 @@ def get_scraping_data(client):
 def get_sold_data():
 
     url = "http://t5.se4ai.sws.informatik.uni-leipzig.de/fastapi/soldCars"
+    
     resp = requests.get(url=url)
 
     cars = pd.DataFrame()

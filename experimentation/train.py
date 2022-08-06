@@ -27,10 +27,10 @@ if __name__ == "__main__":
     os.environ['MLFLOW_TRACKING_PASSWORD'] = 'BVT4mSsG4'
     os.environ['MLFLOW_TRACKING_URI'] = 'https://mlflow.sws.informatik.uni-leipzig.de'
 
-    try:
-        run_name = os.environ.get("MLFLOW_RUN_NAME")
-    except Exception as e:
+    if os.environ.get("MLFLOW_RUN_NAME") == None:
         run_name = "local"
+    else:
+        run_name = os.environ.get("MLFLOW_RUN_NAME")
 
     client = Minio(
         "api.storage.sws.informatik.uni-leipzig.de",
