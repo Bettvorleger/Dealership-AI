@@ -27,6 +27,11 @@ if __name__ == "__main__":
     os.environ['MLFLOW_TRACKING_PASSWORD'] = 'BVT4mSsG4'
     os.environ['MLFLOW_TRACKING_URI'] = 'https://mlflow.sws.informatik.uni-leipzig.de'
 
+    try:
+        run_name = os.environ.get("MLFLOW_RUN_NAME")
+    except Exception as e:
+        run_name = "local"
+
     client = Minio(
         "api.storage.sws.informatik.uni-leipzig.de",
         access_key="90iLSEUoCzGrPci8",
@@ -48,8 +53,6 @@ if __name__ == "__main__":
     #print(cars_sold)
     #print(cars_sold.dtypes)
 
-    #cars = pd.concat([cars, cars_scraped, cars_sold], ignore_index=True)
-    
     ### concat all data ###
 
     #cars = pd.concat([cars, cars_scraped, cars_sold], ignore_index=True)
@@ -80,12 +83,17 @@ if __name__ == "__main__":
     regr = LinearRegression()
     regr.fit(X_train, Y_train)
 
+    run_name = run_name + "_Linear"
+
     #########################
     ### Lasso Regression ####
     #########################
 
     #regr = Lasso(alpha=0.0)
     #regr.fit(X_train, Y_train)
+
+    #tag for kubernetes
+    #run_name = run_name + "_Lasso"
 
     predicted = regr.predict(X_test)
 
@@ -94,9 +102,9 @@ if __name__ == "__main__":
 
     client = mlflow.tracking.MlflowClient()
     
-    run = client.create_run(experiment.experiment_id)
+    run = client.create_run(experiment.experiment_id, tags={"name":run_name})
 
-    with mlflow.start_run(run_id = run.info.run_id, experiment_id=experiment.experiment_id):
+    with mlflow.start_run(run_id = run.info.run_id):
 
         (rmse, mae, r2) = eval_metrics(Y_test, predicted)
 

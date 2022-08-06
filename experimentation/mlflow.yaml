@@ -1,20 +1,20 @@
-apiVersion: v1
-kind: Pod
+apiVersion: batch/v1
+kind: Job
 metadata:
   name: ds-ai
 spec:
-  restartPolicy: OnFailure
-  containers:
-  - name: ds-ai
-    image: group5se4ai22/repo_mlflow_group5se4ai22
-    env:
-    - name: 'MLFLOW_TRACKING_URI'
-      value: "https://mlflow.sws.informatik.uni-leipzig.de"
-    - name: "MLFLOW_TRACKING_USERNAME"
-      value: "group5"
-    - name: "MLFLOW_TRACKING_PASSWORD"
-      value: "BVT4mSsG4"
-    resources:
-      limits:
-        nvidia.com/mig-2g.10gb: 1
+  ttlSecondsAfterFinished: 300
+  backoffLimit: 1
+  template:
+    spec:
+      containers:
+      - name: ds-ai
+        image: group5se4ai22/repo_mlflow_group5se4ai22
+        env:
+        - name: 'MLFLOW_RUN_NAME'
+          value: "kubernetes_run"
+        resources:
+          limits:
+            nvidia.com/mig-2g.10gb: 1
+      restartPolicy: Never
         
