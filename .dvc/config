@@ -1,0 +1,7 @@
+[core]
+    remote = minio
+['remote "minio"']
+    url = s3://group5/dvc_data
+    endpointurl = https://api.storage.sws.informatik.uni-leipzig.de
+    access_key_id = 90iLSEUoCzGrPci8
+    secret_access_key = 6scbjD5fbUSKuD1VULwNeAoaOlVAurIu
