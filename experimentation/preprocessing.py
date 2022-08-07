@@ -41,8 +41,6 @@ def get_a24_data(client):
         a24_obj = client.get_object("group5", "a24_data/autoscout24-germany-dataset.csv")
         cars = pd.read_csv(a24_obj)
 
-        #cars = cars.astype({"mileage": "Int64", "price": "Int64", "year": "Int64"})
-
     finally:
         a24_obj.close()
         a24_obj.release_conn()
