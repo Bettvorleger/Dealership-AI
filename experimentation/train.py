@@ -4,6 +4,8 @@ import os
 import mlflow
 import mlflow.sklearn
 
+import matplotlib.pyplot as plt
+
 from sklearn.linear_model import LinearRegression
 from sklearn.linear_model import Ridge
 from sklearn.linear_model import Lasso
@@ -71,6 +73,7 @@ if __name__ == "__main__":
 
     # Variables for regression, X = matrix of regressors (all except price), Y contains regressand: price
     X = cars.drop('price', axis=1)
+
     Y = cars['price']
 
     # Transform non-numeric attributes to dummy variables for regression

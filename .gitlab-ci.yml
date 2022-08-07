@@ -155,3 +155,6 @@ deploy-experimentation:
     - kubectl config set-context ci-k8s --cluster=k8s --user=ci-user --namespace=group5
     - kubectl config use-context ci-k8s
     - kubectl apply -f mlflow.yaml
+  rules:
+  - changes: 
+    - experimentation/train.py
