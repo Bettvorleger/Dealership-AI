@@ -4,14 +4,8 @@ import os
 import mlflow
 import mlflow.sklearn
 
-import matplotlib.pyplot as plt
-
 from sklearn.linear_model import LinearRegression
-from sklearn.linear_model import Ridge
 from sklearn.linear_model import Lasso
-
-from sklearn.linear_model import ElasticNetCV
-from sklearn.model_selection import RepeatedKFold
 
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
