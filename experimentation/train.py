@@ -7,6 +7,9 @@ import mlflow.sklearn
 from sklearn.linear_model import LinearRegression
 from sklearn.linear_model import Lasso
 
+from sklearn.linear_model import ElasticNetCV
+from sklearn.model_selection import RepeatedKFold
+
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 
@@ -54,7 +57,7 @@ if __name__ == "__main__":
 
     ### concat all data ###
 
-    #cars = pd.concat([cars, cars_scraped, cars_sold], ignore_index=True)
+    cars = pd.concat([cars, cars_scraped, cars_sold], ignore_index=True)
     #print(cars.size)
     #print(cars)
     #print(cars.dtypes)
@@ -80,9 +83,9 @@ if __name__ == "__main__":
     ### Linear Regression ###
     #########################
 
-    regr = LinearRegression()
-    regr.fit(X_train, Y_train)
-    run_name = run_name + "_Linear"
+    #regr = LinearRegression()
+    #regr.fit(X_train, Y_train)
+    #run_name = run_name + "_Linear"
 
     #########################
     ### Lasso Regression ####
@@ -91,6 +94,18 @@ if __name__ == "__main__":
     #regr = Lasso(alpha=0.0)
     #regr.fit(X_train, Y_train)
     #run_name = run_name + "_Lasso"
+
+    #########################
+    ##### ElasticNetCV ######
+    #########################
+
+    alphas = [1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 0.0, 1.0, 10.0, 100.0]
+    l1_ratios = np.arange(0, 1, 0.01)
+
+    cv = RepeatedKFold(n_splits=10, n_repeats=3, random_state=1)
+    regr = ElasticNetCV(alphas=alphas, l1_ratio=l1_ratios, max_iter=1000, cv=cv).fit(X_train, Y_train)
+
+    run_name = run_name + "_Elastic"
 
     # predict on X_test
     predicted = regr.predict(X_test)
@@ -114,6 +129,12 @@ if __name__ == "__main__":
         mlflow.log_metric("rmse", rmse)
         mlflow.log_metric("r2", r2)
         mlflow.log_metric("mae", mae)
+
+        print('alpha: %f' % regr.alpha_)
+        print('l1_ratio_: %f' % regr.l1_ratio_)
+
+        mlflow.log_param("alpha", regr.alpha_)
+        mlflow.log_param("l1_ratio", regr.l1_ratio_)
 
         mlflow.sklearn.log_model(regr, 'linearmodel')
 
