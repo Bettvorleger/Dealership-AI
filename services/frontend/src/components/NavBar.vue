@@ -1,16 +1,16 @@
 <template>
   <q-header height-hint="98">
-    <q-toolbar class="bg-secondary text-black rounded-borders row">
-
+    <q-toolbar class="bg-secondary text-black rounded-borders row wrap">
+      <q-btn dense flat round icon="menu" class="q-mr-md" id="mobile-nav" @click="toggleLeftDrawer" />
       <router-link
         :to="{ name: 'home' }"
         class="col q-my-sm q-mr-lg q-ml-xs"
         align="left"
       >
-        <q-img to="/home" src="@/assets/logo.png" style="width: 220px" />
+        <q-img to="/home" src="@/assets/logo.png" style="max-width: 220px" />
       </router-link>
 
-      <div v-if="isLoggedIn" class="col" align="center">
+      <div v-if="isLoggedIn" id="desktop-nav" class="col" align="center">
         <q-tabs>
           <q-route-tab :to="{ name: 'home' }" label="Home" />
           <q-route-tab :to="{ name: 'status' }" label="Status" />
@@ -18,7 +18,7 @@
         </q-tabs>
       </div>
 
-      <div v-else class="col" align="center">
+      <div v-else class="col" id="desktop-nav" align="center">
         <q-tabs>
           <q-route-tab :to="{ name: 'home' }" label="Home" />
           <q-route-tab :to="{ name: 'status' }" label="Status" />
@@ -50,6 +50,9 @@ export default {
       await this.$store.dispatch("logOut");
       this.$router.push({ name: "login" });
     },
+    toggleLeftDrawer() {
+      this.$emit('clickDrawer', 'click')
+    }
   },
 };
 </script>

@@ -127,7 +127,7 @@
             You are no eligable for a 100€ cash back! Please visit
             <a
               target="_blank"
-              href="https://www.businessinsider.com/how-to-spend-money-and-be-happier-2013-7#youre-investing-too-much-in-yourself-and-not-enough-in-other-people-5"
+              href="https://www.businessinsider.com/how-to-spend-money-and-be-happier-2013-7"
               >here</a
             >
             to apply!
@@ -156,7 +156,7 @@ export default {
     const codeExists = ref(true);
 
     const submit = () => {
-      store.dispatch("getCar", atob(code.value)).then((resp) => {
+      store.dispatch("getCar", (atob(code.value))).then((resp) => {
         if (resp == -1) {
           codeExists.value = false;
           showCar.value = false;

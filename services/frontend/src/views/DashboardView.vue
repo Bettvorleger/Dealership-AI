@@ -11,7 +11,7 @@
           title="Cars"
           :rows="cars"
           :columns="columns"
-          row-key="make"
+          row-key="id"
           :filter="filter"
           :rows-per-page-options="[20,50,100]"
         >
@@ -81,6 +81,7 @@
 import { computed, ref } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
+import { date } from 'quasar'
 
 export default {
   name: "DashboardView",
@@ -92,6 +93,12 @@ export default {
     const cars = computed(() => store.getters["stateCars"]);
 
     const columns = [
+      {
+        name: "created_at",
+        label: "Created on",
+        field: row => date.formatDate(row.created_at, 'DD.MM.YYYY'),
+        sortable: true,
+      },
       {
         name: "make",
         label: "Make",

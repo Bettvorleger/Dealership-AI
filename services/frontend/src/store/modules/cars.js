@@ -4,12 +4,14 @@ const state = {
     cars: null,
     car: null,
     filter: null,
+    coeff: null,
 };
 
 const getters = {
     stateCars: state => state.cars,
     stateCar: state => state.car,
     stateFilter: state => state.filter,
+    stateCoeff: state => state.coeff,
 };
 
 const actions = {
@@ -70,6 +72,15 @@ const actions = {
             console.error(err);
         }
     },
+    async getCoeff({ commit }) {
+        try {
+            let { data } = await axios.get('coefficients');
+            commit('setCoeff', data);
+        }
+        catch (err) {
+            console.error(err);
+        }
+    },
 };
 
 const mutations = {
@@ -81,6 +92,9 @@ const mutations = {
     },
     setFilter(state, filter) {
         state.filter = filter;
+    },
+    setCoeff(state, coeff) {
+        state.coeff = coeff;
     },
 };
 

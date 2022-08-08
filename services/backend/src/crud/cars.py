@@ -5,7 +5,7 @@ import json
 
 import src.inference as inference
 from src.database.models import Cars
-from src.schemas.cars import CarOutSchema, CarOutTrainSchema, Filter
+from src.schemas.cars import CarOutSchema, CarOutTrainSchema, Filter, Coefficients
 from src.schemas.token import Status
 
 
@@ -20,6 +20,11 @@ async def get_car(car_id) -> CarOutSchema:
 async def get_filter() -> Filter:
     filter = json.loads(open("src/assets/filter.json", "r").read())
     return filter
+
+
+async def get_coefficients() -> Coefficients:
+    coeff = json.loads(open("src/assets/coefficients.json", "r").read())
+    return coeff
 
 
 async def create_car(car) -> CarOutSchema:

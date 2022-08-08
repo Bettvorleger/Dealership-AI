@@ -2,6 +2,9 @@
 @import '~quasar-styl';
 // @import '~quasar-addon-styl';
 
+#mobile-nav {
+    display: none;
+}
 
 .dai {
     position: absolute;
@@ -39,4 +42,25 @@
 
 .toggle-listing {
     border: 1px solid $accent
+}
+
+@media only screen and (max-width: $screen-md-max) {
+    .dai {
+        &__layout {
+            width: 100%;
+        }
+    }
+
+    .mobile-link {
+        color: $accent
+    }
+
+    #desktop-nav {
+        display: none;
+    }
+
+    #mobile-nav {
+        display: block;
+    }
+
 }
