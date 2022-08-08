@@ -103,9 +103,9 @@ if __name__ == "__main__":
     l1_ratios = np.arange(0, 1, 0.01)
 
     cv = RepeatedKFold(n_splits=10, n_repeats=3, random_state=1)
-    regr = ElasticNetCV(alphas=alphas, l1_ratio=l1_ratios, max_iter=1000, cv=cv).fit(X_train, Y_train)
+    regr = ElasticNetCV(alphas=alphas, l1_ratio=l1_ratios, max_iter=10000, cv=cv, n_jobs=-1).fit(X_train, Y_train)
 
-    run_name = run_name + "_Elastic"
+    run_name = run_name + "_Elastic_all_data"
 
     # predict on X_test
     predicted = regr.predict(X_test)
