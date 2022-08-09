@@ -91,7 +91,7 @@ if __name__ == "__main__":
     ### Lasso Regression ####
     #########################
 
-    regr = Lasso(alpha=0.0, max_iter=10000)
+    regr = Lasso(alpha=0.0, max_iter=100000)
     regr.fit(X_train, Y_train)
     run_name = run_name + "_Lasso_all_data"
 
@@ -130,10 +130,10 @@ if __name__ == "__main__":
         mlflow.log_metric("r2", r2)
         mlflow.log_metric("mae", mae)
 
-        print('alpha: %f' % regr.alpha_)
-        print('l1_ratio_: %f' % regr.l1_ratio_)
+        #print('alpha: %f' % regr.alpha_)
+        #print('l1_ratio_: %f' % regr.l1_ratio_)
 
-        mlflow.log_param("alpha", regr.alpha_)
+        #mlflow.log_param("alpha", regr.alpha_)
         #mlflow.log_param("l1_ratio", regr.l1_ratio_)
 
         mlflow.sklearn.log_model(regr, 'linearmodel')
