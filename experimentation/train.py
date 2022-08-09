@@ -91,21 +91,21 @@ if __name__ == "__main__":
     ### Lasso Regression ####
     #########################
 
-    #regr = Lasso(alpha=0.0)
-    #regr.fit(X_train, Y_train)
-    #run_name = run_name + "_Lasso"
+    regr = Lasso(alpha=0.0, max_iter=10000)
+    regr.fit(X_train, Y_train)
+    run_name = run_name + "_Lasso_all_data"
 
     #########################
     ##### ElasticNetCV ######
     #########################
 
-    alphas = [1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 0.0, 1.0, 10.0, 100.0]
-    l1_ratios = np.arange(0, 1, 0.001)
+    #alphas = [1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 0.0, 1.0, 10.0, 100.0]
+    #l1_ratios = np.arange(0, 1, 0.01)
 
-    cv = RepeatedKFold(n_splits=10, n_repeats=3, random_state=1)
-    regr = ElasticNetCV(alphas=alphas, l1_ratio=l1_ratios, max_iter=100000, cv=cv, n_jobs=-1).fit(X_train, Y_train)
+    #cv = RepeatedKFold(n_splits=10, n_repeats=3, random_state=1)
+    #regr = ElasticNetCV(alphas=alphas, l1_ratio=l1_ratios, max_iter=100000, cv=cv, n_jobs=-1).fit(X_train, Y_train)
 
-    run_name = run_name + "_Elastic_all_data"
+    #run_name = run_name + "_Elastic_all_data"
 
     # predict on X_test
     predicted = regr.predict(X_test)
