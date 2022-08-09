@@ -1,7 +1,7 @@
 <template>
   <q-header height-hint="98">
     <q-toolbar class="bg-secondary text-black rounded-borders row wrap">
-      <q-btn dense flat round icon="menu" class="q-mr-md" id="mobile-nav" @click="toggleLeftDrawer" />
+      <q-btn flat round icon="menu" class="q-mr-md self-center" id="mobile-nav" @click="toggleLeftDrawer" />
       <router-link
         :to="{ name: 'home' }"
         class="col q-my-sm q-mr-lg q-ml-xs"
@@ -41,15 +41,18 @@
 export default {
   name: "NavBar",
   computed: {
+    // get auth store entry for login
     isLoggedIn: function () {
       return this.$store.getters.isAuthenticated;
     },
   },
   methods: {
+    // click action for logout
     async logout() {
       await this.$store.dispatch("logOut");
       this.$router.push({ name: "login" });
     },
+    // click action for mobile hamburger menu for parent component
     toggleLeftDrawer() {
       this.$emit('clickDrawer', 'click')
     }

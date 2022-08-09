@@ -65,6 +65,7 @@ const router = createRouter({
   routes
 })
 
+// only allow certain pages if user is authenticated, else refer to login page
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
     if (store.getters.isAuthenticated) {

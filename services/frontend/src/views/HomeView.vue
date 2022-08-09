@@ -1,6 +1,6 @@
 <template>
   <section>
-    <div class="q-pa-md">
+    <div>
       <q-stepper
         v-model="step"
         vertical
@@ -392,6 +392,7 @@ export default {
   setup() {
     const store = useStore();
 
+    // init car object for inference/saving
     let car = ref({
       make: "",
       model: "",
@@ -410,6 +411,7 @@ export default {
     const noListing = ref(false);
     const code = ref(null);
 
+    // get filters and explainability coefficients from backend and load from store
     store.dispatch("getFilter");
     const filter = computed(() => store.getters["stateFilter"]);
 
@@ -425,6 +427,8 @@ export default {
       offer_type: 0,
     });
 
+    // click action for car detail submit button (step 2)
+    // inference via backend call with car object returns price, call explainability
     const onSubmitCarDetails = () => {
       store.dispatch("getPrice", car.value).then((resp) => {
         car.value.price = resp;
@@ -439,12 +443,15 @@ export default {
       step.value = 3;
     };
 
+    // create explanability via coefficients from AI model
+    // normalize each param with inference price, summing up all weights and output if over treshold (1/10 of sum)
     const createExplanability = () => {
       const impact = {
         mileage: (car.value.mileage * coeff.value.mileage) / car.value.price,
-        hp: (car.value.hp/10 * coeff.value.hp) / car.value.price,
+        hp: ((car.value.hp / 10) * coeff.value.hp) / car.value.price,
         year:
-          ((car.value.year - new Date().getFullYear())/4 * coeff.value.year) /
+          (((car.value.year - new Date().getFullYear()) / 4) *
+            coeff.value.year) /
           car.value.price,
         make: (coeff.value.make[car.value.make] ?? 0) / car.value.price,
         fuel: (coeff.value.fuel[car.value.fuel] ?? 0) / car.value.price,
@@ -458,10 +465,7 @@ export default {
         sum += Math.abs(impact[key]);
       }
 
-      console.log(impact);
-      let influence = sum * 1/10;
-
-      console.log(influence);
+      let influence = (sum * 1) / 10;
 
       explain.value.mileage =
         Math.abs(impact.mileage) > influence
@@ -481,6 +485,7 @@ export default {
         Math.abs(impact.hp) > influence ? 1 * Math.sign(impact.offer_type) : 0;
     };
 
+    // click action for last submit step, creates entry in database 
     const onSubmitListing = () => {
       if (customPrice.value) {
         car.value.price = customPrice.value;

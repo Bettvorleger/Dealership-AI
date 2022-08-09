@@ -34,10 +34,12 @@ export default {
   },
   setup(props, { emit }) {
     const options = ref(props.stringOptions);
+    // send input updates to parent component
     const input = computed({
       get: () => props.modelValue,
       set: (value) => emit("update:modelValue", value),
     });
+    // filter function for searchable select options
     const filterFn = (val, update) => {
       if (val === "") {
         update(() => {

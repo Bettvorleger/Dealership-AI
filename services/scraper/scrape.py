@@ -9,8 +9,6 @@ from minio import Minio
 
 # set folders locally and on S3
 data_folder = "data/"
-
-
 s3_folder = "scraping_data/"
 path_visited_urls = data_folder+"visited_urls.json"
 

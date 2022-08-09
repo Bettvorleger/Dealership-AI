@@ -3,7 +3,7 @@
     <section>
       <h4>Overview</h4>
 
-      <div class="q-pa-md">
+      <div>
         <q-table
           dense
           flat
@@ -89,9 +89,11 @@ export default {
     const store = useStore();
     const router = useRouter();
 
+    // get all cars from backend and reload store content
     store.dispatch("getCars");
     const cars = computed(() => store.getters["stateCars"]);
 
+    // definde table columns
     const columns = [
       {
         name: "created_at",
@@ -170,6 +172,7 @@ export default {
       { name: "actions", label: "Actions", field: "", align: "center" },
     ];
 
+    // define car edit click action and push to router
     const editCar = (carId) => {
       try {
         router.push({ name: "editCar", params: { id: carId } });
@@ -178,6 +181,7 @@ export default {
       }
     };
 
+    // define car delete click action and dispatch to backend
     const deleteCar = (carId) => {
       try {
         store.dispatch("deleteCar", carId);
@@ -187,6 +191,7 @@ export default {
       }
     };
 
+    // define car sale click action, set is_sold param and push as update
     const simulateSale = (car) => {
       try {
         car.is_sold = true;

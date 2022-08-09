@@ -26,8 +26,7 @@
 </template>
 
 <script>
-import { useQuasar } from "quasar";
-import { ref, computed } from "vue";
+import { ref } from "vue";
 import NavBar from "@/components/NavBar.vue";
 import NavBarMobile from "./components/NavBarMobile.vue";
 
@@ -39,12 +38,6 @@ export default {
   },
 
   setup() {
-    const $q = useQuasar();
-
-    const style = computed(() => ({
-      height: $q.screen.height + "px",
-    }));
-
     const leftDrawerOpen = ref(false);
 
     return {
@@ -52,7 +45,6 @@ export default {
       toggleLeftDrawer() {
         leftDrawerOpen.value = !leftDrawerOpen.value;
       },
-      style,
     };
   },
 };

@@ -76,9 +76,11 @@ export default {
     const store = useStore();
     const router = useRouter();
 
+    // get car object from backend and load from store
     store.dispatch("getCar", props.id);
     const car = computed(() => store.getters.stateCar);
 
+    // click action for car edit form, takes car object and entry id, push to backend
     const submit = () => {
       try {
         let data = {

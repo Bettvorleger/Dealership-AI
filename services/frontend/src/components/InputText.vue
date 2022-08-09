@@ -31,6 +31,7 @@ export default {
     max: Number,
   },
   setup(props, { emit }) {
+    //emit input action to parent component
     const input = computed({
       get: () => props.modelValue,
       set: (value) => emit("update:modelValue", value),

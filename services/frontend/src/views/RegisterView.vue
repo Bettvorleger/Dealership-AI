@@ -72,7 +72,9 @@ export default {
     };
   },
   methods: {
+    // get register action in old options API
     ...mapActions(["register"]),
+    // define submit form for register action
     async submit() {
       try {
         await this.register(this.user);

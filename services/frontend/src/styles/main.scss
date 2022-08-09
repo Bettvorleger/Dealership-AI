@@ -2,6 +2,10 @@
 @import '~quasar-styl';
 // @import '~quasar-addon-styl';
 
+body {
+    background: #E4E2EB;
+}
+
 #mobile-nav {
     display: none;
 }
@@ -30,7 +34,7 @@
     &__page {
         background-color: #fff;
         margin-top: 2%;
-        padding: 12px 12px;
+        padding: 24px 24px;
     }
 }
 
@@ -49,6 +53,10 @@
         &__layout {
             width: 100%;
         }
+
+        &__page {
+            padding: 2px 2px;
+        }
     }
 
     .mobile-link {
@@ -60,7 +68,7 @@
     }
 
     #mobile-nav {
-        display: block;
+        display: inline-flex;
     }
 
 }

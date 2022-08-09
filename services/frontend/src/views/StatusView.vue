@@ -1,13 +1,13 @@
 <template>
-  <div class="q-pa-md">
+  <div>
     <q-card flat class="form-card">
       <q-card-section>
         <h4 class="text-center q-mb-xs">Check car listing status</h4>
       </q-card-section>
       <q-card-section>
         <div class="text-body text-center">
-          Please input the code you have been given to check the sale status of
-          your car listing.
+          Please enter the code you received to check the sales status of your
+          vehicle listing.
         </div>
       </q-card-section>
       <q-card-section class="row wrap justify-center items-center">
@@ -149,14 +149,16 @@ export default {
   setup(props) {
     const store = useStore();
 
+    // get car object from store, but set initial show to false
     const car = computed(() => store.getters.stateCar);
-    console.log(car.value)
     const showCar = ref(false);
+    // get car code (base64 encoded id) from props/url
     const code = ref(props.pCode);
     const codeExists = ref(true);
 
+    // click action for form, gets car details for base64 encoded car id
     const submit = () => {
-      store.dispatch("getCar", (atob(code.value))).then((resp) => {
+      store.dispatch("getCar", atob(code.value)).then((resp) => {
         if (resp == -1) {
           codeExists.value = false;
           showCar.value = false;

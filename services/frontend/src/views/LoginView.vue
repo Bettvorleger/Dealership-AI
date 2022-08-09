@@ -56,7 +56,9 @@ export default {
     };
   },
   methods: {
+    // register logIn action in old options API
     ...mapActions(["logIn"]),
+    // define submit form for login
     async submit() {
       const User = new FormData();
       User.append("username", this.form.username);
