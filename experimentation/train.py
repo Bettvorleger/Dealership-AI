@@ -134,7 +134,7 @@ if __name__ == "__main__":
         print('l1_ratio_: %f' % regr.l1_ratio_)
 
         mlflow.log_param("alpha", regr.alpha_)
-        mlflow.log_param("l1_ratio", regr.l1_ratio_)
+        #mlflow.log_param("l1_ratio", regr.l1_ratio_)
 
         mlflow.sklearn.log_model(regr, 'linearmodel')
 
