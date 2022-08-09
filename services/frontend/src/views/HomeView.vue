@@ -147,7 +147,7 @@
             </div>
 
             <div class="q-pa-md row items-stretch q-gutter-md">
-              <q-card flat bordered class="col-5">
+              <q-card flat bordered class="col-md-5">
                 <q-card-section>
                   <div class="text-h6">
                     Price Booster <q-icon color="positive" name="trending_up" />
@@ -181,7 +181,7 @@
                   </q-list>
                 </q-card-section>
               </q-card>
-              <q-card flat bordered class="col-5">
+              <q-card flat bordered class="col-md-5">
                 <q-card-section>
                   <div class="text-h6">
                     Price Opposer
@@ -293,33 +293,33 @@
                 ]"
               >
                 <template v-slot:ai>
-                  <div class="row items-center no-wrap">
-                    <div class="text-center text-h6">
+                  <div class="row items-center justify-center">
+                    <div class="text-center text-h6 review-label">
                       Take Dealership AI’s sale adivce
                     </div>
                     <q-icon right name="task_alt" />
                   </div>
-                  <ul dense class="row q-mt-md q-mb-xs text-weight-regular">
-                    <li class="col-5 text-left">
+                  <ul dense class="row justify-center q-pl-xs q-mt-md q-mb-xs text-weight-regular">
+                    <li class="col-md-5 text-left">
                       list your car for the <b>predicted price</b> of
                       {{ car.price }}€
                     </li>
-                    <li class="col-5 offset-1 stext-left">
+                    <li class="col-md-5 text-left">
                       get <b>100€ cash back</b> for successful sale
                     </li>
                   </ul>
                 </template>
 
                 <template v-slot:custom>
-                  <div class="row items-center no-wrap">
-                    <div class="text-center text-h6">Select your own price</div>
+                  <div class="row items-center wrap justify-center">
+                    <div class="text-center text-h6 review-label">Select your own price</div>
                     <q-icon right name="tune" />
                   </div>
-                  <ul dense class="row q-mt-md q-mb-xs text-weight-regular">
-                    <li class="col-5 text-left">
+                  <ul dense class="row justify-center q-pl-xs q-mt-md q-mb-xs text-weight-regular">
+                    <li class="col-md-5 text-left">
                       list your car for the <b>price you want</b>
                     </li>
-                    <li class="col-5 offset-1 text-left">
+                    <li class="col-md-5 text-left">
                       <b>no</b> cash back for successful sale
                     </li>
                   </ul>
@@ -327,7 +327,7 @@
               </q-btn-toggle>
               <div class="row justify-end">
                 <q-input
-                  class="col-2 offset-2"
+                  class="col-md-2 offset-2"
                   label="Custom Price"
                   v-if="car.is_custom"
                   outlined

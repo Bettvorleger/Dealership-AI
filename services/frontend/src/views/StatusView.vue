@@ -35,7 +35,7 @@
       <div
         class="q-mt-xs q-gutter-md row items-start justify-center content-start"
       >
-        <q-list bordered separator class="col-2">
+        <q-list bordered separator class="col-md-2 col-5">
           <q-item>
             <q-item-section>
               <q-item-label overline>Created on</q-item-label>
@@ -57,7 +57,7 @@
             </q-item-section>
           </q-item>
         </q-list>
-        <q-list bordered separator class="col-2">
+        <q-list bordered separator class="col-md-2 col-5">
           <q-item>
             <q-item-section>
               <q-item-label overline>Mileage</q-item-label>
@@ -77,7 +77,7 @@
             </q-item-section>
           </q-item>
         </q-list>
-        <q-list bordered separator class="col-2">
+        <q-list bordered separator class="col-md-2 col-5">
           <q-item>
             <q-item-section>
               <q-item-label overline>Fuel Type</q-item-label>
@@ -97,7 +97,7 @@
             </q-item-section>
           </q-item>
         </q-list>
-        <q-list bordered separator class="col-2">
+        <q-list bordered separator class="col-md-2 col-5">
           <q-item>
             <q-item-section>
               <q-item-label overline>Price</q-item-label>
