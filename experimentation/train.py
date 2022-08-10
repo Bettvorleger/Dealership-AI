@@ -57,7 +57,7 @@ if __name__ == "__main__":
 
     ### concat all data ###
 
-    cars = pd.concat([cars, cars_scraped, cars_sold], ignore_index=True)
+    #cars = pd.concat([cars, cars_scraped, cars_sold], ignore_index=True)
     #print(cars.size)
     #print(cars)
     #print(cars.dtypes)
@@ -85,7 +85,7 @@ if __name__ == "__main__":
 
     #regr = LinearRegression()
     #regr.fit(X_train, Y_train)
-    #run_name = run_name + "_Linear"
+    #run_name = run_name + "_Linear_a24_data"
 
     #########################
     ### Lasso Regression ####
@@ -93,7 +93,7 @@ if __name__ == "__main__":
 
     regr = Lasso(alpha=0.0, max_iter=100000)
     regr.fit(X_train, Y_train)
-    run_name = run_name + "_Lasso_all_data"
+    run_name = run_name + "_Lasso_a24_data"
 
     #########################
     ##### ElasticNetCV ######

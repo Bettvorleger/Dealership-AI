@@ -1,9 +1,0 @@
-name: ds-ai
-
-docker_env:
-  image: group5se4ai22/repo_mlflow_group5se4ai22
-  environment: [["MLFLOW_TRACKING_USERNAME",'group5'], ["MLFLOW_TRACKING_PASSWORD",'BVT4mSsG4'], [MLFLOW_TRACKING_URI','https://mlflow.sws.informatik.uni-leipzig.de']]
-
-entry_points:
-  main:
-    command: "python train.py"

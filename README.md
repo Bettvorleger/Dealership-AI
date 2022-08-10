@@ -8,7 +8,7 @@ It consists of a dockerized service architecture, that is served using kubernete
 The model is logged using MLflow,
 allowing us to organize our diferent models and serving only the correct one to the backend for inference.
 
-During experimentation we concluded that a (linear) regression is the best fit for our problem, since it provides very fast inference and possibility for explainability through coefficients.
+During experimentation we concluded that a linear regression is the best fit for our problem, since it provides very fast inference and possibility for explainability through coefficients.
 
 Backend properties:
 - Technologies: FastAPI, Tortoise ORM, Aerich
@@ -64,8 +64,10 @@ The following services/deployments are served using their own Kubernetes pods/co
 - scraper: cronjob executed everyday at 13:35 (GMT+2)
 - database: stateful set
 - mlflow model training: job exceuted on change
+- secrets: with credentials of the database
 
-Only the frontend and backend are handled by ingress.
+Only the frontend and backend are handled by ingress. The scraper does not communicate with other pods. The database has an internal service on Cluster-IP 10.110.230.89 to communicate with the backend and is deployed as a stateful set with the name postgres-0. One can use Aerich to update the database scheme from inside the backend container. 
+
 See the .yaml files for further info on the structure.
 
 ## Gitlab CI/CD 
