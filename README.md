@@ -88,10 +88,11 @@ Backend and frontend pods are also explicitly restarted.
 ### Experiments:
 We concluded several experiments with different combinations from our three data sources.
 
-Due to a bug probably in the library of sklearn we weren't able to run the linear regression on the cluster, so with this method we were limited to train the model locally. Other methods like Lasso-Regression and ElasticNet-Regression did run on the cluster without problems.
+Due to a bug probably in the library of sklearn we weren't able to run the linear regression on the cluster, so with this method we were limited to train the model locally. Other methods like Lasso regression and Elastic Net regression did run on the cluster without problems.
 
 ### Registered Model for Production:
-We decided to register a linear model which was trained with the static Autoscout24 data based on three metrics (mean_squared_error, mean_absolute_error, r2_score). 
+We decided to register a linear model which was trained only with the Autoscout24 data based on three metrics (mean_squared_error=5523.2, mean_absolute_error=2798.8, r2_score=0.896).
+
  
 
 
