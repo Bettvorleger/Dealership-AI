@@ -41,7 +41,7 @@ Simply clone the whole repo, cd into the base folder and execute:
 docker-compose up -d --build    
 ```
 
-That starts the frontend, backend and db containers and linking them correctly with a persistend db and volume mount to the repo.
+That starts the frontend, backend and db containers and linking them correctly with a persistent db and volume mount to the repo.
 Therefore changes can be seen by execeuting the above again.
 
 The Vue.js frontend should be visible under `localhost:8080` and the FastAPI backend under `localhost/fastapi`.
@@ -62,11 +62,11 @@ The following services/deployments are served using their own Kubernetes pods/co
 - frontend: ingress service on port 80
 - backend: ingress service on port 80, subpath /fastapi
 - scraper: cronjob executed everyday at 13:35 (GMT+2)
-- database: stateful set
-- mlflow model training: job exceuted on change
+- database: stateful set with 10Gi persistent volume claim
+- mlflow model training: job exceuted on change with logging in MLFlow
 - secrets: with credentials of the database
 
-Only the frontend and backend are handled by ingress. The scraper does not communicate with other pods. The database has an internal service on Cluster-IP 10.110.230.89 to communicate with the backend and is deployed as a stateful set with the name postgres-0. One can use Aerich to update the database scheme from inside the backend container. 
+Only the frontend and backend are handled by ingress. The scraper does not communicate with other pods. The database has an internal service to communicate with the backend and is deployed as a stateful set with the name postgres. One can use Aerich to update the database scheme from inside the backend container. 
 
 See the .yaml files for further info on the structure.
 
@@ -82,4 +82,16 @@ then we commit them to docker hub.
 Log into the Kubernetes cluster and applying the .yaml-files for the above mentioned containers.
 This results every pod (were the image pull policy is set accordingly) to check for a new image.
 Backend and frontend pods are also explicitly restarted.
+
+## MLFlow
+
+### Experiments:
+We concluded several experiments with different combinations from our three data sources.
+
+Due to a bug probably in the library of sklearn we weren't able to run the linear regression on the cluster, so with this method we were limited to train the model locally. Other methods like Lasso-Regression and ElasticNet-Regression did run on the cluster without problems.
+
+### Registered Model for Production:
+We decided to register a linear model which was trained with the static Autoscout24 data based on three metrics (mean_squared_error, mean_absolute_error, r2_score). 
+ 
+
 
