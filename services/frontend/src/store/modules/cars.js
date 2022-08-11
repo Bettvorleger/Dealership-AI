@@ -18,7 +18,9 @@ const actions = {
     // eslint-disable-next-line no-empty-pattern
     async createCar({ }, car) {
         try {
-            let res = await axios.post('cars', car);
+            let res = await axios.post('cars', car, {
+                withCredentials: false,
+            });
             return res.data
         }
         catch (err) {
@@ -35,7 +37,9 @@ const actions = {
     },
     async getCar({ commit }, id) {
         try {
-            let { data } = await axios.get(`car/${id}`);
+            let { data } = await axios.get(`car/${id}`, {
+                withCredentials: false,
+            });
             commit('setCar', data);
         } catch (err) {
             return -1
@@ -56,7 +60,9 @@ const actions = {
     // eslint-disable-next-line no-empty-pattern
     async getPrice({ }, car) {
         try {
-            let res = await axios.post('price', car);
+            let res = await axios.post('price', car, {
+                withCredentials: false,
+            });
             return res.data
         }
         catch (err) {
@@ -65,7 +71,9 @@ const actions = {
     },
     async getFilter({ commit }) {
         try {
-            let { data } = await axios.get('filter');
+            let { data } = await axios.get('filter', {
+                withCredentials: false,
+            });
             commit('setFilter', data);
         }
         catch (err) {
@@ -74,7 +82,9 @@ const actions = {
     },
     async getCoeff({ commit }) {
         try {
-            let { data } = await axios.get('coefficients');
+            let { data } = await axios.get('coefficients', {
+                withCredentials: false,
+            });
             commit('setCoeff', data);
         }
         catch (err) {

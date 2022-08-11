@@ -491,7 +491,8 @@ export default {
         car.value.price = customPrice.value;
       }
       store.dispatch("createCar", car.value).then((resp) => {
-        code.value = btoa(resp.id).replace("=", "");
+        code.value = btoa(resp.id)
+        code.value = code.value.replace(/=/g, "");
         successDialog.value = true;
       });
     };
